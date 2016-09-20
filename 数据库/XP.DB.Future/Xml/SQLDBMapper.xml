@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<DbMappers>
+
+
+  
+  <!-- 行映射 -->
+  <ColumnMappers>
+    <!--   -->
+    <column  dbtype="nvarchar" typename="" typeFullname="" ></column>
+    
+    
+    
+    
+  </ColumnMappers>
+  
+  
+</DbMappers>
+
+
+

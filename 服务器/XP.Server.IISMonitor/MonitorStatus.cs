@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace XP.Util.Win
+namespace XP.Server.IISMonitor
 {
-    public class Class1
+
+    public class MonitorStatus : BaseStatus
     {
+
+
+
     }
 }
