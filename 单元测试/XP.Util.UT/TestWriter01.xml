@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<SiteSet>
+
+		<!-- 允许程序进入调试状态 -->
+		<add name="EnableDebug" value="1" />
+
+
+		<!-- 代理服务器运行时使用的端口 -->
+		<add name="ProxyServerPort" value="6677" />
+
+
+		<!-- 测试一个非法的节点  -->
+		<add   value="测试一个非法的节点" />
+
+
+	</SiteSet>
+	<!-- 分组信息 -->
+	<KeyGroup>
+
+		<!--   =========== 转库入库用的excel导入 列名  ==============   -->
+		<MoveStockExcelColNames>
+			<!--成本导入 列头：商品编号 商品名称 成本 数量   -->
+			<add name="ProductCode" value="货号" />
+			<add name="ProductName" value="货品名称" />
+			<add name="ProductPrice" value="单价" />
+			<add name="ProductNum" value="数量" />
+			<add name="ProductCost" value="成本" />
+		</MoveStockExcelColNames>
+
+	</KeyGroup>
+
+</root>
+

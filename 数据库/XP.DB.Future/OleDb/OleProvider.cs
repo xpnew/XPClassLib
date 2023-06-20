@@ -212,7 +212,8 @@ namespace XP.DB.Future.OleDb
 
         public override ITableAnalyze GreateTableAnalyzer()
         {
-            //return base.GreateTableAnalyzer();
+            //retu
+            base.GreateTableAnalyzer();
 
             return new OleTableAnalyze(this);
         }

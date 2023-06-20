@@ -51,7 +51,7 @@
     <Content Include="Xml\SQLDBMapper.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\练习\数据调整综合工具\XP.DbEntity\XP.DB.DbEntity.csproj">
+    <ProjectReference Include="..\..\..\数据调整综合工具\XP.DbEntity\XP.DB.DbEntity.csproj">
       <Project>{bd17f8e4-ddbf-4a37-beea-600616bc6794}</Project>
       <Name>XP.DB.DbEntity</Name>
     </ProjectReference>
@@ -62,6 +62,10 @@
     <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
       <Project>{d3aabbec-b6ae-4a7c-9c24-83353507efc1}</Project>
       <Name>XP.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XP.DB.Common\XP.DB.Comm.csproj">
+      <Project>{2840e5c4-3bf5-4c57-958b-fb4bca9749b6}</Project>
+      <Name>XP.DB.Comm</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

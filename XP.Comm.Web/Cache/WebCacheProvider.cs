@@ -2,14 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Caching;
+using XP.Comm.Cache;
 
-namespace XP.Comm.Cache
+namespace XP.Util.Cache
 {
     public class WebCacheProvider : ICacheProvider
     {
+        /// <summary>
+        /// 缓存移除事件
+        /// </summary>
+        public event CacheRemoveEventHander CacheRemoveEvent;
+
+        /// <summary>
+        /// 缓存的默认滑动时间为600秒
+        /// </summary>
+        private int _SlidingExpiration = 600;
 
 
-
+        public int SlidingExpiration
+        {
+            get { return _SlidingExpiration; }
+            set { _SlidingExpiration = value; }
+        }
         public object GetCache(string cacheName)
         {
             System.Web.Caching.Cache objCache = System.Web.HttpRuntime.Cache;
@@ -34,21 +49,34 @@ namespace XP.Comm.Cache
         }
         public void Add(string cacheName, object cacheInstance)
         {
-             System.Web.Caching.Cache objCache = System.Web.HttpRuntime.Cache;
-             if (null == objCache[cacheName])
-             {
-                 objCache[cacheName] = cacheInstance;
-             }
-             else
-             {
-                 objCache[cacheName] = cacheInstance;
+            System.Web.Caching.Cache objCache = System.Web.HttpRuntime.Cache;
+            if (null == objCache[cacheName])
+            {
+                objCache[cacheName] = cacheInstance;
+            }
+            else
+            {
+                objCache[cacheName] = cacheInstance;
 
-             }
+            }
         }
 
         public void Insert(string cacheName, object cacheInstance)
         {
-            Add(cacheName, cacheInstance);
+            System.Web.Caching.Cache objCache = System.Web.HttpRuntime.Cache;
+            objCache.Insert(cacheName, cacheInstance);
+
+        }
+
+
+
+        public void Insert(string cacheName, object cacheInstance, string phyPath)
+        {
+            System.Web.Caching.Cache objCache = System.Web.HttpRuntime.Cache;
+            CacheItemRemovedCallback callback = new CacheItemRemovedCallback(RemovedCallback);
+            CacheDependency dep = new CacheDependency(phyPath, DateTime.Now);
+
+            objCache.Insert(cacheName, cacheInstance, dep, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(SlidingExpiration), CacheItemPriority.Default, callback);
 
         }
 
@@ -56,6 +84,36 @@ namespace XP.Comm.Cache
         {
             System.Web.Caching.Cache objCache = System.Web.HttpRuntime.Cache;
             objCache.Remove(cacheName);
+        }
+
+
+        protected virtual void RemovedCallback(string key, object value, CacheItemRemovedReason reason)
+        {
+            Console.WriteLine("缓存被移除!");
+            Console.WriteLine(reason.ToString());
+            AfterRemove();
+        }
+
+        public void AfterRemove()
+        {
+            CacheRemoveEvent();
+
+        }
+
+        public void Insert(string cacheName, object cacheInstance, CacheExpireTypeDef expireType, int second)
+        {
+            System.Web.Caching.Cache objCache = System.Web.HttpRuntime.Cache;
+
+            if (CacheExpireTypeDef.Abesolute == expireType)
+            {
+                objCache.Insert(cacheName, cacheInstance, null, DateTime.Now.AddSeconds(second), System.Web.Caching.Cache.NoSlidingExpiration);
+
+            }
+            else
+            {
+                objCache.Insert(cacheName, cacheInstance, null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(SlidingExpiration));
+
+            }
         }
     }
 }

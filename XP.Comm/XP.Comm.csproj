@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XP.Comm</RootNamespace>
     <AssemblyName>XP.Comm</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,8 +30,32 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,17 +65,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncEventHandler.cs" />
+    <Compile Include="Attributes\AlaisKeyAttribute.cs" />
+    <Compile Include="Attributes\DBSkipColumnAttribute.cs" />
+    <Compile Include="Attributes\EntitySkipColumnAttribute.cs" />
+    <Compile Include="Attributes\JsonAlaisKeyAttribute.cs" />
+    <Compile Include="Attributes\JsonSkipColumnAttribute.cs" />
+    <Compile Include="Cache\CacheEnums.cs" />
+    <Compile Include="Cache\CacheRemoveEventArgs.cs" />
+    <Compile Include="Cache\FileCacheEventArgs.cs" />
     <Compile Include="Cache\IAppCache.cs" />
     <Compile Include="Cache\ICacheProvider.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="Constant.cs" />
+    <Compile Include="Entity\IdPrimaryKey.cs" />
+    <Compile Include="Entity\IdPrimaryKeyBase.cs" />
+    <Compile Include="Entity\Int64IdEntityBase.cs" />
+    <Compile Include="Entity\Int64IdStoreEntityBase.cs" />
+    <Compile Include="Entity\IntIdEntityBase.cs" />
+    <Compile Include="Entity\IntIdStoreEntityBase.cs" />
+    <Compile Include="Entity\IStoreEntity.cs" />
+    <Compile Include="Entity\StoreEntityBase.cs" />
+    <Compile Include="Enums\TaskStatusDef.cs" />
+    <Compile Include="Enums\WebSystem\WebSystemEnums.cs" />
+    <Compile Include="Event\LogEventArgs.cs" />
+    <Compile Include="Event\MsgEnentArgs.cs" />
+    <Compile Include="Event\TableChangedEventArgs.cs" />
+    <Compile Include="InfoLevel.cs" />
     <Compile Include="Filters\NotDataFilterAttribute.cs" />
+    <Compile Include="Json\NoIgnoreContractResolver.cs" />
+    <Compile Include="Logs\ILogElement.cs" />
+    <Compile Include="Logs\LogElementBase.cs" />
+    <Compile Include="Msgs\BaseEntityVSMsg.cs" />
+    <Compile Include="Msgs\CommMsg.cs" />
+    <Compile Include="Msgs\DataMsg.cs" />
+    <Compile Include="Msgs\IMsg.cs" />
     <Compile Include="Msgs\MsgBase.cs" />
     <Compile Include="Msgs\MsgResult.cs" />
     <Compile Include="Msgs\XPMsg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QCondition\BaseQCondition.cs" />
+    <Compile Include="QCondition\BassEntityCondition.cs" />
+    <Compile Include="QCondition\OrderTypeDef.cs" />
+    <Compile Include="Structs\Point.cs" />
+    <Compile Include="Tokens\TokenBase.cs" />
+    <Compile Include="Types\ResultTypeDefined.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Attributes\" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

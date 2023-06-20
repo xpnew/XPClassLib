@@ -104,17 +104,23 @@ namespace XP.DB.Future
         }
         public int ExecuteSql(string sql)
         {
+            var cmd = CreateCommand(sql);      
 
-            var cmd = CreateCommand(sql);
-
-            Conn.Open();
-
-            int Result = cmd.ExecuteNonQuery();
-
-            Conn.Close();
-
-            return Result;
-
+            try
+            {
+                Conn.Open();
+                int Result = cmd.ExecuteNonQuery();             
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open ||Conn.State == ConnectionState.Executing )
+                    Conn.Close();
+            }
         }
 
         public virtual int InsertAndId(string sql)

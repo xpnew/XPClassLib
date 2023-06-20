@@ -72,6 +72,15 @@ namespace XP.Util.TypeCache
 
         public List<string> ListPropertyList { get; set; }
 
+        /// <summary>
+        /// 属性是一个类的列表
+        /// </summary>
+        public List<string> ClassPropertyList { get; set; }
+
+        /// <summary>
+        /// 属性类型字典
+        /// </summary>
+        public Dictionary<string, Type> PropertyTypeDict { get; set; }
 
         private List<string> _PropertyNames = new List<string>();
 
@@ -125,8 +134,9 @@ namespace XP.Util.TypeCache
             this.Type = type;
             _CacheName = _type.FullName;
             ListPropertyList = new List<string>();
+            ClassPropertyList = new List<string>();
+            PropertyTypeDict = new Dictionary<string, Type>();
             GetPropertyInfo();
-
         }
 
 
@@ -169,6 +179,13 @@ namespace XP.Util.TypeCache
                 PropertyArr.Add(property);
                 PropertyNames.Add(property.Name);
                 PropertyDic.Add(property.Name, property);
+
+                Type CurrentPropertyType = GetRealType(property.PropertyType);
+                if (CurrentPropertyType.IsClass)
+                {
+                    ClassPropertyList.Add(property.Name);
+                }
+                PropertyTypeDict.Add(property.Name, CurrentPropertyType);
             }
 
         }

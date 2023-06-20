@@ -24,6 +24,8 @@ namespace XP.DB.Comm
         public string ColumnTypeVSLength { get; set; }
 
 
+        public SqlDbType? SqlType { get; set; }
+
         /// <summary>
         /// 属性的类型
         /// </summary>
