@@ -72,5 +72,55 @@ namespace XP.Util
 
             return IdList;
         }
+        /// <summary>将字符串解析成List的方法</summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static List<string> String2List(string str)
+        {
+            if (String.IsNullOrEmpty(str))
+            {
+                return null;
+            }
+            string[] IdArray = str.Split(new char[] { ',', '|' });
+            List<string> IdList = new List<string>();
+            foreach (string idStr in IdArray)
+            {
+                IdList.Add(idStr);
+            }
+            return IdList;
+        }
+
+        /// <summary>
+        /// 对数组/list随机排列
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inputList"></param>
+        /// <returns></returns>
+        public static List<T> GetRandomList<T>(List<T> inputList)
+        {
+            //Copy to a array
+            T[] copyArray = new T[inputList.Count];
+            inputList.CopyTo(copyArray);
+
+            //Add range
+            List<T> copyList = new List<T>();
+            copyList.AddRange(copyArray);
+
+            //Set outputList and random
+            List<T> outputList = new List<T>();
+            Random rd = new Random(DateTime.Now.Millisecond);
+
+            while (copyList.Count > 0)
+            {
+                //Select an index and item
+                int rdIndex = rd.Next(0, copyList.Count - 1);
+                T remove = copyList[rdIndex];
+
+                //remove it from copyList and add it to output
+                copyList.Remove(remove);
+                outputList.Add(remove);
+            }
+            return outputList;
+        }
     }
 }

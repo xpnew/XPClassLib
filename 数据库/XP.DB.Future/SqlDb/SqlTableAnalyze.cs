@@ -61,6 +61,21 @@ FROM  information_schema.columns  LEFT JOIN
 FROM  sys.extended_properties WHERE  major_id = OBJECT_ID ('{TM:TableName}')
 ) AS B  ON   information_schema.columns.ORDINAL_POSITION = B.minor_id
 WHERE TABLE_NAME='{TM:TableName}'  ";
+
+            //sql 第三版 ORDINAL_POSITION 是顺序号，不准的，因为如果有字段被删除minor_id就是不连续的值
+
+            sql_adv = @"SELECT 0,information_schema.columns.*, MS_Description
+FROM  information_schema.columns  LEFT JOIN 
+(
+SELECT T1.value AS MS_Description,T2.name AS clo_Name FROM 
+( SELECT sys.extended_properties.value ,minor_id FROM  sys.extended_properties WHERE  major_id = OBJECT_ID ('{TM:TableName}')
+) AS T1 INNER JOIN ( SELECT * FROM syscolumns  WHERE  id = OBJECT_ID ('{TM:TableName}') ) 
+AS T2  ON T1.minor_id = T2.colid 
+) AS B  ON   information_schema.columns.COLUMN_NAME = B.clo_Name
+WHERE TABLE_NAME='{TM:TableName}'";
+
+
+
             sql_adv = sql_adv.Replace("{TM:TableName}", tablename);
 
             var dt = Provider.Select(sql_adv);
@@ -81,6 +96,7 @@ WHERE TABLE_NAME='{TM:TableName}'  ";
                 NewItem.ColumnName = Name;
                 NewItem.ColumnTypeName = row["DATA_TYPE"].ToString();
 
+                NewItem.GlobalName = Name;
                 if (0 != PkColumnList.Count && PkColumnList.Contains(Name))
                 {
                     NewItem.IsPk = true;
@@ -162,9 +178,12 @@ WHERE TABLE_NAME='{TM:TableName}'  ";
         {
             Type t;
             string typename = item.ColumnTypeName;
+            item.SqlType = (SqlDbType)Enum.Parse(typeof(SqlDbType), typename, true);
+
             typename = typename.ToLower();
 
-            string PropertyName;
+
+            string PropertyTypeName;
             switch (typename)
             {
                 case "varchar":
@@ -174,41 +193,51 @@ WHERE TABLE_NAME='{TM:TableName}'  ";
                 case "text":
                 case "ntext":
                     t = typeof(string);
-                    PropertyName = "string";
+                    PropertyTypeName = "string";
                     break;
                 case "int":
                 case "smallint":
                     t = typeof(int);
-                    PropertyName = "int";
+                    PropertyTypeName = "int";
                     break;
                 case "tinyint":
                     t = typeof(byte);
-                    PropertyName = "byte";
+                    PropertyTypeName = "byte";
                     break;
                 case "bigint":
-                    PropertyName = "long";
+                    PropertyTypeName = "long";
                     t = typeof(long);
                     break;
                 case "bit":
-                    PropertyName = "bool";
+                    PropertyTypeName = "bool";
                     t = typeof(bool);
                     break;
                 case "decimal":
-                    PropertyName = "decimal";
+                    PropertyTypeName = "decimal";
                     t = typeof(decimal);
                     break;
                 case "uniqueidentifier":
-                    PropertyName = "Guid";
+                    PropertyTypeName = "Guid";
                     t = typeof(Guid);
                     break;
+                case "datetime":
+                    PropertyTypeName = "DateTime";
+                    t = typeof(DateTime);
+                    break;
+                case "timestamp":
+                    PropertyTypeName = "byte[]";
+                    t = typeof(DateTime);
+                    break;
+
+
                 case "":
                 default:
-                    PropertyName = "object";
+                    PropertyTypeName = "object";
                     t = typeof(object);
                     break;
             }
             item.PropertyType = t;
-            item.PropertyTypeName = PropertyName;
+            item.PropertyTypeName = PropertyTypeName;
             if (typeof(string) == t)
             {
                 if (-1 == item.CharLength)

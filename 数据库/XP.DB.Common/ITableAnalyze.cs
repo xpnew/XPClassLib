@@ -24,15 +24,22 @@ namespace XP.DB.Comm
 
 
 
-         List<ColumnDtoItem> GetColumn(string tablename);
+        List<ColumnDtoItem> GetColumn(string tablename);
 
 
 
-         DataTable AllTables();
+        DataTable AllTables();
 
-         DataTable AllViews();
+        DataTable AllViews();
 
-         DataTable AllProcedures();
+        DataTable AllProcedures();
 
+
+        ///// <summary>
+        ///// 是否存在指定的列，0表示 未知
+        ///// </summary>
+        ///// <param name="columnName"></param>
+        ///// <returns></returns>
+        //int ExistColumn(string columnName);
     }
 }

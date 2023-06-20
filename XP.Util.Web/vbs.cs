@@ -247,7 +247,7 @@ namespace XP
             if (str == null && str == String.Empty)
                 return str;
             str = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5");
-            if (size > 32)
+            if (size >= 32)
                 return str;
             str = str.Substring((32 - size) / 2, size);
             return str;

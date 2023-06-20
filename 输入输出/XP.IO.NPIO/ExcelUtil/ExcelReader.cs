@@ -1,4 +1,5 @@
-﻿using NPOI.SS.UserModel;
+﻿using NPOI.SS.Formula.Eval;
+using NPOI.SS.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -274,6 +275,42 @@ namespace XP.IO.ExcelUtil
                         case CellType.String:
                             NewRow[j] = cell.StringCellValue;
                             break;
+                        case CellType.Formula:
+                            // NewRow[ColIndex] = cell.CachedFormulaResultType;
+                            switch (cell.CachedFormulaResultType)
+                            {
+                                case CellType.String:
+                                    string strFORMULA = cell.StringCellValue;
+                                    if (strFORMULA != null && strFORMULA.Length > 0)
+                                    {
+                                        NewRow[j] = strFORMULA.ToString();
+                                    }
+                                    else
+                                    {
+                                        NewRow[j] = null;
+                                    }
+                                    break;
+                                case CellType.Numeric:
+                                    if (DateUtil.IsCellDateFormatted(cell))
+                                    {
+                                        NewRow[j] = cell.DateCellValue.ToString("yyyy-MM-dd hh:MM:ss");
+                                    }
+                                    else
+                                    {
+                                        NewRow[j] = Convert.ToString(cell.NumericCellValue);
+                                    }
+                                    break;
+                                case CellType.Boolean:
+                                    NewRow[j] = Convert.ToString(cell.BooleanCellValue);
+                                    break;
+                                case CellType.Error:
+                                    NewRow[j] = ErrorEval.GetText(cell.ErrorCellValue);
+                                    break;
+                                default:
+                                    NewRow[j] = "";
+                                    break;
+                            }
+                            break;
                         default:
                             NewRow[j] = cell.ToString();
                             break;
@@ -393,6 +430,42 @@ namespace XP.IO.ExcelUtil
                             break;
                         case CellType.String:
                             NewRow[ColIndex] = cell.StringCellValue;
+                            break;
+                        case CellType.Formula:
+                            // NewRow[ColIndex] = cell.CachedFormulaResultType;
+                            switch (cell.CachedFormulaResultType)
+                            {
+                                case CellType.String:
+                                    string strFORMULA = cell.StringCellValue;
+                                    if (strFORMULA != null && strFORMULA.Length > 0)
+                                    {
+                                        NewRow[ColIndex] = strFORMULA.ToString();
+                                    }
+                                    else
+                                    {
+                                        NewRow[ColIndex] = null;
+                                    }
+                                    break;
+                                case CellType.Numeric:
+                                    if (DateUtil.IsCellDateFormatted(cell))
+                                    {
+                                        NewRow[ColIndex] = cell.DateCellValue.ToString("yyyy-MM-dd hh:MM:ss");
+                                    }
+                                    else
+                                    {
+                                        NewRow[ColIndex] = Convert.ToString(cell.NumericCellValue);
+                                    }
+                                    break;
+                                case CellType.Boolean:
+                                    NewRow[ColIndex] = Convert.ToString(cell.BooleanCellValue);
+                                    break;
+                                case CellType.Error:
+                                    NewRow[ColIndex] = ErrorEval.GetText(cell.ErrorCellValue);
+                                    break;
+                                default:
+                                    NewRow[ColIndex] = "";
+                                    break;
+                            }
                             break;
                         default:
                             NewRow[ColIndex] = cell.ToString();

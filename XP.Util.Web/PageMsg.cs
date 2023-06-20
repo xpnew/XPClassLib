@@ -114,7 +114,7 @@ namespace XP.Util.Web
 
         private static string getMsgCHS(string str)
         {
-            string connstr = Config.ConnStr;
+            string connstr = Conf.ConnStr;
 
             string sql = "Select Id,message from xpnewMessage where KeyWords like %" + str + "%";
 

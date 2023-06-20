@@ -408,7 +408,7 @@ namespace XP.DB.MiniEF
                 }
             }
             //字符串，加前后引号
-            if (typeof(String) == PropertyType)
+            if (typeof(String) == PropertyType )
             {
 
                 PropertyValue = _PropertyValueGeter.GetValue(model, propertyName);
@@ -419,6 +419,18 @@ namespace XP.DB.MiniEF
 
                 PropertyValue = ((string)PropertyValue).Replace("\'", "\'");
                 return "'" + PropertyValue + "'";
+            }
+            //日期，加前后引号
+            if ( typeof(DateTime) == PropertyType)
+            {
+
+                PropertyValue = _PropertyValueGeter.GetValue(model, propertyName);
+                if (null == PropertyValue)
+                    return null;
+                string val = PropertyValue.ToString();
+
+                //PropertyValue = ((string)PropertyValue).Replace("\'", "\'");
+                return "'" + val + "'";
             }
 
             PropertyValue = _PropertyValueGeter.GetValue(model, propertyName);

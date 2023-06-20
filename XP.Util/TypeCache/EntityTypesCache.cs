@@ -150,7 +150,7 @@ namespace XP.Util.TypeCache
             return false;
         }
 
-        public void Add(Type type)
+        public virtual void Add(Type type)
         {
             string TypeName = type.FullName;
             EntityTypesCacheItem NewCache = new EntityTypesCacheItem(type);

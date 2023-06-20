@@ -5,30 +5,27 @@ using System.Text;
 
 namespace XP.Util.TypeCache
 {
-    public class EntityCopyUtil<FromEntity, ToEntity>
+    public class EntityCopyUtil<FromEntity, ToEntity> : EntityPropertyCopy<FromEntity, ToEntity>
         where FromEntity : class
-        where ToEntity : class ,new()
+        where ToEntity : class, new()
     {
-
-        public Type FromType { get; set; }
-        public Type ToType { get; set; }
-
-        public List<string> FromPropertyNames { get; set; }
-        public List<string> ToPropertyNames { get; set; }
 
         private DynamicMethod<FromEntity> _FromGeter;
         private DynamicMethod<ToEntity> _ToSeter;
 
-        public EntityCopyUtil()
+        public EntityCopyUtil() : base()
         {
-            FromType = typeof(FromEntity);
-            ToType = typeof(ToEntity);
-            EntityTypesCache Cache = EntityTypesCache.CreateInstance();
-            FromPropertyNames = Cache.GetItem(FromType).PropertyNames;
-            ToPropertyNames = Cache.GetItem(ToType).PropertyNames;
+            //FromType = typeof(FromEntity);
+            //ToType = typeof(ToEntity);
+            //EntityTypesCache Cache = EntityTypesCache.CreateInstance();
+            //FromCache = Cache.GetItem(FromType);
+            //ToCache = Cache.GetItem(ToType);
+            //FromPropertyNames = FromCache.PropertyNames;
+            //ToPropertyNames = ToCache.PropertyNames;
 
-            _FromGeter = new DynamicMethod<FromEntity>();
-            _ToSeter = new DynamicMethod<ToEntity>();
+
+            //_FromGeter = new DynamicMethod<FromEntity>();
+            //_ToSeter = new DynamicMethod<ToEntity>();
 
         }
 
@@ -41,13 +38,49 @@ namespace XP.Util.TypeCache
             }
             ToEntity Result = new ToEntity();
 
-            foreach (string PropertyName in FromPropertyNames)
-            {
-                if (ToPropertyNames.Exists(o => o == PropertyName))
-                {
-                    _ToSeter.SetValue(Result, PropertyName, _FromGeter.GetValue(source, PropertyName));
-                }
-            }
+            CopyToEntity(source, Result);
+            //var CommonPorpertyNames = FromPropertyNames.Where(o => ToPropertyNames.Contains(o));
+
+            //foreach (string PropertyName in CommonPorpertyNames)
+            //{
+            //    if (FromCache.ClassPropertyList.Contains(PropertyName))
+            //    {
+            //        if (ToCache.ClassPropertyList.Contains(PropertyName))
+            //        { 
+            //            var FromPropertyType = FromCache.PropertyTypeDict[PropertyName];
+            //            var ToPropertyType = ToCache.PropertyTypeDict[PropertyName];
+            //            if (FromPropertyType != ToPropertyType)
+            //            {
+            //                //var Copier = new EntityCopyUtil<FromPropertyType, ToPropertyType>();
+            //                //还有一些问题没有解决，先跳过
+            //                //var tcu = new TypeCopyUtil(FromPropertyType, ToPropertyType);
+
+            //                //_ToSeter.SetValue(output, PropertyName, tcu.CopyEntity(_FromGeter.GetValue(source, PropertyName)));
+            //                continue;
+            //            }
+            //            else
+            //            {
+
+            //            }
+            //        }
+            //        else
+            //        {
+            //            continue;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (ToCache.ClassPropertyList.Contains(PropertyName))
+            //        {
+            //            continue;
+            //        }
+            //    }
+            //    object NewValue = GetToPropertyValue(source, PropertyName);
+            //    if (ToPropertyNames.Exists(o => o == PropertyName))
+            //    {
+            //        _ToSeter.SetValue(output, PropertyName, _FromGeter.GetValue(source, PropertyName));
+            //    }
+            //}
 
 
 
@@ -55,6 +88,5 @@ namespace XP.Util.TypeCache
 
             return Result;
         }
-
     }
 }
