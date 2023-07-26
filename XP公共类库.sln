@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30320.27
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XP.Common.UnitTest", "XP.Common.UnitTest\XP.Common.UnitTest.csproj", "{D687DF4F-5B1B-4BCA-8718-42D683934972}"
 EndProject
@@ -90,6 +90,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Http和远程", "Http和远程", "{904D05B5-68EE-4611-9E4B-569773B4A972}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XP.Web.JumonySDK", "Http和远程\XP.Web.JumonySDK\XP.Web.JumonySDK.csproj", "{D79F41A0-A688-4E53-A68B-E73119471CF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XP.Util.Http", "Http和远程\XP.Util.Http\XP.Util.Http.csproj", "{42E247D2-A310-48D2-B262-F8F2B809FF30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XP.Comm.Http", "Http和远程\XP.Comm.Http\XP.Comm.Http.csproj", "{BD289A4A-ADE7-49FF-AB97-0540EBA36C32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -221,6 +225,14 @@ Global
 		{D79F41A0-A688-4E53-A68B-E73119471CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D79F41A0-A688-4E53-A68B-E73119471CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D79F41A0-A688-4E53-A68B-E73119471CF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42E247D2-A310-48D2-B262-F8F2B809FF30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42E247D2-A310-48D2-B262-F8F2B809FF30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42E247D2-A310-48D2-B262-F8F2B809FF30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42E247D2-A310-48D2-B262-F8F2B809FF30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD289A4A-ADE7-49FF-AB97-0540EBA36C32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD289A4A-ADE7-49FF-AB97-0540EBA36C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD289A4A-ADE7-49FF-AB97-0540EBA36C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD289A4A-ADE7-49FF-AB97-0540EBA36C32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -257,6 +269,8 @@ Global
 		{6B015DCD-2CBF-4741-8398-F6788757AC1E} = {4372A676-A5A5-48D0-A12A-BA5F39F8DB85}
 		{E2D712F7-5B00-4B67-8FAC-C93473B11FDB} = {51FB1322-022B-4BF0-9EF4-8F9893377501}
 		{D79F41A0-A688-4E53-A68B-E73119471CF4} = {904D05B5-68EE-4611-9E4B-569773B4A972}
+		{42E247D2-A310-48D2-B262-F8F2B809FF30} = {904D05B5-68EE-4611-9E4B-569773B4A972}
+		{BD289A4A-ADE7-49FF-AB97-0540EBA36C32} = {904D05B5-68EE-4611-9E4B-569773B4A972}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {92B126EC-73AA-4139-8040-321D129CCF00}
