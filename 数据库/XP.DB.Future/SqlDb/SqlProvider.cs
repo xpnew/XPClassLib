@@ -144,6 +144,7 @@ namespace XP.DB.Future.SqlDb
         public override object SingleColumn(string sql)
         {
             SqlCommand cmd = new SqlCommand(sql, _Conn);
+            cmd.CommandTimeout = 9999 * 1000;
             _Conn.Open();
             SqlDataReader dr = cmd.ExecuteReader();
 

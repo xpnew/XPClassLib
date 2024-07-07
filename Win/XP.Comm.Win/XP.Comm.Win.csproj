@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Daemons\DaemonBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +54,14 @@
     <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
       <Project>{d3aabbec-b6ae-4a7c-9c24-83353507efc1}</Project>
       <Name>XP.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\数据库\XP.DB.CommRedis\XP.DB.CommRedis.csproj">
+      <Project>{1F647EC8-8465-47EC-8433-B2343E9982D3}</Project>
+      <Name>XP.DB.CommRedis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\数据库\XP.DB.LocalRedis\XP.DB.LocalRedis.csproj">
+      <Project>{DF30C1B4-391F-46D0-9941-420348D6DB83}</Project>
+      <Name>XP.DB.LocalRedis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

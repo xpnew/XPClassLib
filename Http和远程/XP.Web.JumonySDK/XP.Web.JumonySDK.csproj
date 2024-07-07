@@ -61,10 +61,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XP.Util.Win\XP.Util.Win.csproj">
-      <Project>{52320D2E-25CB-4AD9-B446-D73967C8B74F}</Project>
-      <Name>XP.Util.Win</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
       <Project>{d3aabbec-b6ae-4a7c-9c24-83353507efc1}</Project>
       <Name>XP.Util</Name>
