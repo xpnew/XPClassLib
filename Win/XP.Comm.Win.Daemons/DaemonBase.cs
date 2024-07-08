@@ -39,13 +39,13 @@ namespace XP.Win.Daemons
         /// <summary>
         /// 全部守护程序使用的公共前缀
         /// </summary>
-        protected string _DaemonRedisPrefix = "XP:WinSvc:Daemons";
+        protected string _DaemonRedisPrefix = "LJY:WinSvc:Daemons";
 
         protected string _HostName = null;
         /// <summary>
         /// 刷新间隔，毫秒，默认为100，可以在配置文件当中指定
         /// </summary>
-        private int _RefrushMillisecond { get; set; }
+        private int _RefrushMillisecond { get; set; } = 100;
 
         /// <summary>
         /// 计时表（累计计算）
@@ -55,12 +55,16 @@ namespace XP.Win.Daemons
         /// <summary>
         /// ▲▲▲已经关闭▲▲▲内部的计时器，定时完全成任务
         /// </summary>
-        protected System.Timers.Timer RefrushTimer { get; set; }
+        System.Timers.Timer RefrushTimer { get; set; }
 
         /// <summary>
         /// 内部心跳计时器，主要是通过Redis报告运行状态，间隔为1秒
         /// </summary>
         protected System.Timers.Timer _InnerHeartbeatTimer { get; set; }
+        /// <summary>
+        /// 内部心跳的次数，因为心跳是按秒算的，所以这个数字可以用来间接计算得到分钟
+        /// </summary>
+        protected long InnerHeartbeatTimes { get; set; }
 
         /// <summary>
         /// Redis工具，Redis缓存操作封装
@@ -80,6 +84,90 @@ namespace XP.Win.Daemons
         /// </summary>
         public int DaemonIndex { get; set; }
 
+        /// <summary>
+        /// 程序启动的时间
+        /// </summary>
+        public DateTime BeginTime { get; set; }
+
+        /// <summary>
+        /// 最后一次开始&恢复的时间
+        /// </summary>
+        public DateTime LastStartTime { get; set; }
+
+
+        protected bool _IsWorking = false;
+
+        public bool IsWorking { get => _IsWorking; }
+
+        #region 消息、报告
+        protected Action<string, string> _InnerLogEvent;
+
+        public Action<string, string> LogEvent;
+
+        public void OnSendLog(string tit, string body = null)
+        {
+            LogEvent?.Invoke(tit, body);
+        }
+
+        /// <summary>
+        /// 最后一个任务的标志
+        /// </summary>
+        public string LastTaskTag { get; set; }
+
+        #endregion
+
+
+
+        #region 任务计数器
+
+        /// <summary>
+        /// 允许计数
+        /// </summary>
+        public bool EnableCounter { get; set; } = false;
+
+
+
+        int _Counter4Task = 0;
+                protected void StopCounter()
+        {
+
+            OnSendLog("计数器关闭。");
+
+        }
+
+        protected void StartCounter()
+        {
+            _Counter4Task = 0;
+            OldMinuteCounter = 0;
+            OnSendLog("计数器启动。");
+        }
+        int OldMinuteCounter = 0;
+        int NewMinuteCounter = 0;
+        int HistoryCounter = 0;
+
+        protected void MinuteReport()
+        {
+            if (!_IsWorking)
+            {
+                return;
+            }
+            int diff = _Counter4Task - OldMinuteCounter;
+            if (0 > diff) return;
+
+            OldMinuteCounter = _Counter4Task;
+            OnSendLog($"最近一分钟完成的任务数：{diff},总任务数：{_Counter4Task}", $"最近一分钟完成的任务数：{diff},总任务数(本次启动开始，按下停止重置)：{_Counter4Task},历史任务数（程序启动）：{HistoryCounter}，最后任务的标志：{LastTaskTag}");
+        }
+
+        public void NextCount()
+        {
+            _Counter4Task++;
+            HistoryCounter++;
+        }
+
+
+
+        #endregion
+
 
         public DaemonBase()
         {
@@ -93,7 +181,7 @@ namespace XP.Win.Daemons
         /// </summary>
         protected virtual void _Init()
         {
-            _HostName = Util.Net.IPvsNameTools.GetIpAndName();
+            _HostName = XP.Util.Net.IPvsNameTools.GetIpAndName();
             _DefaultInitName();
             Loger.Info(_DaemonClassName + "===========已经初始化!");
             Loger.Error(_DaemonClassName + "===========测试日志输出!");
@@ -110,6 +198,8 @@ namespace XP.Win.Daemons
             _InnerHeartbeatTimer.Elapsed += InnerHeartbeatTimerOnElapsed;
             _InnerHeartbeatTimer.Start();
 
+            BeginTime = DateTime.Now;
+            LastStartTime = DateTime.Now;
 
             RefrushTimer = new Timer();
             RefrushTimer.Elapsed += RefrushTimer_Elapsed;
@@ -171,10 +261,16 @@ namespace XP.Win.Daemons
         /// <param name="e"></param>
         private void InnerHeartbeatTimerOnElapsed(object sender, ElapsedEventArgs e)
         {
+            InnerHeartbeatTimes++;
             //throw new NotImplementedException();
             var Last = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
             RedisUtil.Insert("LastUpdate", Last);
+
+            if (0 == InnerHeartbeatTimes % 60)
+            {
+                MinuteReport();
+            }
 
         }
         /// <summary>
@@ -193,16 +289,22 @@ namespace XP.Win.Daemons
         {
             //x.Say("到底是基类还是派生类：" + _TestName);
             Loger.Info("程序已经启动");
+            _IsWorking = true; ;
             RefrushTimer.Start();
             Watcher.Start();
+            LastStartTime = DateTime.Now;
+            InnerHeartbeatTimes = 0;
+            StartCounter();
         }
 
         public virtual void Stop()
         {
+            _IsWorking = false;
             Loger.Info("程序 停止");
 
             RefrushTimer.Stop();
             Watcher.Stop();
+            StopCounter();
         }
 
 
