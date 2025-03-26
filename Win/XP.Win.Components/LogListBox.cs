@@ -215,7 +215,25 @@ namespace XP.Win.Components
             string log = string.Format(format, args);
             AddLog(log);
         }
+        public void AddLog(string log)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string>(AddLog), log);
+                return;
+            }
+            while (this.Items.Count > ItemsMaxLength)
+            {
+                this.Items.RemoveAt(0);
+            }
 
+            bool isScrollBottom = this.TopIndex == this.Items.Count - (int)(this.Height / this.ItemHeight);
+            this.Items.Add(new WinLogDetails(log));
+            if (isScrollBottom)
+            {
+                NTUser32.SendMessage(this.Handle, NTUser32.WM_VSCROLL, new IntPtr(NTUser32.SB_BOTTOM), IntPtr.Zero);
+            }
+        }
         public void AddLog(string log, string body = null)
         {
             if (this.InvokeRequired)

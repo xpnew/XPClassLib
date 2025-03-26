@@ -21,6 +21,6 @@ namespace XP.Util.Win
         public FormResultDef FormResult { get; set; } = FormResultDef.Default;
 
 
-
+        
     }
 }
