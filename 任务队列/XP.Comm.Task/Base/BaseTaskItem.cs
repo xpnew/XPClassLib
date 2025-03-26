@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using XP.Comm.Enums;
+using XP.Util.Json;
 
 namespace XP.Comm.Task
 {
@@ -31,7 +32,22 @@ namespace XP.Comm.Task
         /// <summary>
         /// 任务号
         /// </summary>
-        public Guid TaskNo { get; set; }
+        public Guid TaskNo { get; set; } = Guid.NewGuid();
+
+        /// <summary>
+        /// 任务的中文名字
+        /// </summary>
+        public virtual string Name4Chs { get; set; }
+
+        /// <summary>
+        /// 临时通知，用来保存输出到各种目标的临时信息
+        /// </summary>
+        public string TempNotie { get; set; }
+
+        /// <summary>
+        /// 消息、通知的文本 内容
+        /// </summary>
+        public string NoticeStr { get; set; }
 
 
         public string TaskName { get; set; }
@@ -137,6 +153,10 @@ namespace XP.Comm.Task
                 var k = WorkAsync();
                 await k;
 
+                if (IsFinished)
+                {
+                    return;
+                }
                 if (IsBroken)
                 {
                     Status = TaskStatusDef.Error;
@@ -217,7 +237,7 @@ namespace XP.Comm.Task
         /// <summary>
         /// 任务超时
         /// </summary>
-        public void Timeout()
+        public virtual void Timeout()
         {
             if (IsFinished) return;
             Log("任务超时");
@@ -238,11 +258,13 @@ namespace XP.Comm.Task
 
         }
 
-        protected virtual void FailTask(string msg)
+        protected virtual void FailTask(string msg, Exception ex = null)
         {
             if (IsFinished) return;
 
-            Msg.SetFail(msg);
+            IsBroken = true;
+            //Msg.SetFail(msg);
+            _SayError(msg, ex);
             Status = TaskStatusDef.Fail;
             Finished();
 
@@ -258,12 +280,16 @@ namespace XP.Comm.Task
         }
 
 
-        public void Finished()
+        public virtual void Finished()
         {
             FinishTime = DateTime.Now;
             if (!IsSuccess)
             {
-                Loger.Info("任务结束：" + TaskName + "（" + TaskNo + "）,任务状态：" + Status);
+                if (!IsSuccess)
+                {
+                    Loger.Info(this.GetType().FullName + "任务结束：" + TaskName + "（" + TaskNo + "）,任务状态：" + Status);
+                    Loger.Info(JsonHelper.ToJson(this.Msg));
+                }
             }
             IsFinished = true;
         }

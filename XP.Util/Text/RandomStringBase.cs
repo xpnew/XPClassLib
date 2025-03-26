@@ -12,6 +12,7 @@ namespace XP.Util.Text
     public class RandomStringBase
     {
 
+        public Guid GId { get; set; } = Guid.NewGuid();
 
         public string Result { get; set; }
 

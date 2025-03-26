@@ -8,11 +8,11 @@ namespace XP.Util.Text
     /// <summary>
     /// 随机字符串，在给定范围内，基类
     /// </summary>
-    public class RandomStringByRangBase: RandomStringBase
+    public class RandomStringByRangBase : RandomStringBase
     {
         public string Range { get; set; }
 
-        public RandomStringByRangBase():base()
+        public RandomStringByRangBase() : base()
         {
             _Init();
         }
@@ -38,7 +38,7 @@ namespace XP.Util.Text
             }
             int TotalCharNum = Range.Length;
             //Random rnd = InnterRandom;
-            string Result = null;
+            Result = null;
             StringBuilder sb = new StringBuilder();
             for (int l = 0; l < length; l++)
             {
@@ -52,8 +52,37 @@ namespace XP.Util.Text
 
         }
 
-        
+        public void SetRnd(int seed)
+        {
+            Rnd = new Random(seed);
+        }
 
+        public static RandomStringByRangBase BuildRandom(RandomStringByRangBase input)
+        {
+            if (input is EnglishRandomString)
+            {
+                var real = (EnglishRandomString)input;
+                return new EnglishRandomString(real.CharNumberEnable, real.CharCapitalLettersEnable, real.CharSmallLettersEnable, real.CharPunctuation);
+            }
+            else
+            {
+                return input;
+            }
+        }
+        public static RandomStringByRangBase BuildRandom(RandomStringByRangBase input, int seed)
+        {
+            if (input is EnglishRandomString)
+            {
+                var real = (EnglishRandomString)input;
+                var Result = new EnglishRandomString(real.CharNumberEnable, real.CharCapitalLettersEnable, real.CharSmallLettersEnable, real.CharPunctuation);
 
+                Result.SetRnd(seed);
+                return Result;
+            }
+            else
+            {
+                return input;
+            }
+        }
     }
 }

@@ -111,6 +111,7 @@
     <Compile Include="Cache\CachebasedImplementaionBase.cs" />
     <Compile Include="Cache\CacheManager.cs" />
     <Compile Include="Cache\DictCacheBase.cs" />
+    <Compile Include="ClassTemplate\SingleInstanceMngTmp.cs" />
     <Compile Include="Conf.cs" />
     <Compile Include="Configs\ConfigReader.cs" />
     <Compile Include="Configs\ConfigWriter.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Text\RandomStringBase.cs" />
     <Compile Include="Text\RandomStringByRangBase.cs" />
     <Compile Include="Text\StringExtensions.cs" />
+    <Compile Include="Threadings\AsyncTask.cs" />
     <Compile Include="TypeCache\DynamicTypeMethod.cs" />
     <Compile Include="TypeCache\EntityCacheItem4JsonDict.cs" />
     <Compile Include="TypeCache\EntityCloneUtil.cs" />

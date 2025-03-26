@@ -138,6 +138,8 @@ namespace XP.Util
         #region 随机数和随机字符串
 
         private static Random rnd = new Random();
+
+        private static readonly object rng_locker = new object();
         /// <summary>
         /// 从一个整数区间获取一个随机数字，max是不包含在内的
         /// </summary>
@@ -146,7 +148,8 @@ namespace XP.Util
         /// <returns></returns>
         public static int Random(int min, int max)
         {
-            return rnd.Next(min, max);
+            lock (rng_locker)
+                return rnd.Next(min, max);
         }
         /// <summary>
         /// 获取一组不重复的随机整数
