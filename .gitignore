@@ -18,7 +18,10 @@ bld/
 .vs/
 /.vs/
 */.vs/
+<<<<<<< HEAD
 
+=======
+>>>>>>> 090d5b34f332e071271add4f77fe5344f756cd68
 
 # Roslyn cache directories
 *.ide/
