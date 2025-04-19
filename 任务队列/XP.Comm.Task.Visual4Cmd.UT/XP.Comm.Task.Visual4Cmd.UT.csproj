@@ -1,19 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{81F6FE06-1295-417F-9BD2-955F8B099BB8}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XP.IO.DirAndFile</RootNamespace>
-    <AssemblyName>XP.IO.DirAndFile</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <ProjectGuid>{18F12B80-9B12-4985-BEC0-5BF47CE11765}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>XP.Comm.Task.Visual4Cmd.UT</RootNamespace>
+    <AssemblyName>XP.Comm.Task.Visual4Cmd.UT</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -21,16 +22,15 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -39,21 +39,33 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtNameFilesFilter.cs" />
-    <Compile Include="FilesFilterBase.cs" />
-    <Compile Include="FilesResultInfo.cs" />
-    <Compile Include="说明.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\XP.Comm\XP.Comm.csproj">
+      <Project>{0429227a-a0ed-4db2-86bf-4105ba1e33d4}</Project>
+      <Name>XP.Comm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
+      <Project>{d3aabbec-b6ae-4a7c-9c24-83353507efc1}</Project>
+      <Name>XP.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XP.Comm.Task.Visual4Cmd\XP.Comm.Task.Visual4Cmd.csproj">
+      <Project>{a3f7a856-f3c2-49af-b50c-31e09c6d3e71}</Project>
+      <Name>XP.Comm.Task.Visual4Cmd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XP.Comm.Task\XP.Comm.Task.csproj">
+      <Project>{9a99c3c9-36d0-4fff-b76c-a6e0b6a45b28}</Project>
+      <Name>XP.Comm.Task</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
