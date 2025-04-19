@@ -49,6 +49,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\XP.Comm\XP.Comm.csproj">
+      <Project>{ff368e06-0aab-42b3-bd21-099b1defd4bf}</Project>
+      <Name>XP.Comm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XP.Util.Web\XP.Util.Web.csproj">
+      <Project>{a82e5f89-c314-4f08-b36c-a9ce7e3f1951}</Project>
+      <Name>XP.Util.Web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
       <Project>{d3aabbec-b6ae-4a7c-9c24-83353507efc1}</Project>
       <Name>XP.Util</Name>

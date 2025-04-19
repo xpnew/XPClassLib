@@ -263,6 +263,35 @@ namespace XP.DB.CommRedis
         #endregion
 
 
+        public List<string> GetStringList(string key)
+        {
+            if (!Helper.KeyExists(key))
+            {
+                return null;
+            }
+            var first = Helper.ListIndex(key, 0);
+            if (first.IsInteger) return null;
+            //var ttt =  first.Box().GetType();
+            //if(first.Box().GetType() != typeof(string))
+            //{
+            //    return null;
+            //}
+            var lst = Helper.ListRange(key);
+
+            return lst.Select(o=> o.ToString()).ToList();
+        }
+
+        public long InsertStringList(string key, string val)
+        {
+            if (!Helper.KeyExists(key))
+            {
+                return -1;
+            }
+            return Helper.ListLastPush(key, (RedisValue)val);
+          
+        }
+
+
         #region  常规增删改查
 
 
