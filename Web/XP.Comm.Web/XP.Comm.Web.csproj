@@ -59,10 +59,6 @@
       <Project>{0429227a-a0ed-4db2-86bf-4105ba1e33d4}</Project>
       <Name>XP.Comm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
-      <Project>{d3aabbec-b6ae-4a7c-9c24-83353507efc1}</Project>
-      <Name>XP.Util</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cache\" />
