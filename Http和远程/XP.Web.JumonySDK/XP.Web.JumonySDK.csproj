@@ -61,10 +61,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
-      <Project>{d3aabbec-b6ae-4a7c-9c24-83353507efc1}</Project>
-      <Name>XP.Util</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\任务队列\XP.Comm.Task\XP.Comm.Task.csproj">
       <Project>{9A99C3C9-36D0-4FFF-B76C-A6E0B6A45B28}</Project>
       <Name>XP.Comm.Task</Name>

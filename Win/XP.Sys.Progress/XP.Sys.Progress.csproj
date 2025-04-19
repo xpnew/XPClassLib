@@ -62,10 +62,6 @@
       <Project>{0429227a-a0ed-4db2-86bf-4105ba1e33d4}</Project>
       <Name>XP.Comm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
-      <Project>{d3aabbec-b6ae-4a7c-9c24-83353507efc1}</Project>
-      <Name>XP.Util</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\任务队列\XP.Comm.Task\XP.Comm.Task.csproj">
       <Project>{9a99c3c9-36d0-4fff-b76c-a6e0b6a45b28}</Project>
       <Name>XP.Comm.Task</Name>
