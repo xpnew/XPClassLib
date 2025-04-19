@@ -1405,6 +1405,8 @@ namespace XP.DB.CommRedis
             }
             catch (Exception error)
             {
+                XP.Loger.Error("查询Redis出错误，准备获取一个List但是可能类型不对", error);
+                //return -1;
                 //LogOut.Instance.PrintLog("Redis::ListLenght()   " + error.ToString());
             }
             return 0;
@@ -1543,6 +1545,7 @@ namespace XP.DB.CommRedis
             }
             catch (Exception error)
             {
+                XP.Loger.Error("查询Redis出错误，准备获取一个List但是可能类型不对", error);
                 //LogOut.Instance.PrintLog("Redis::ListRange()   " + error.ToString());
             }
             return null;
