@@ -8,5 +8,6 @@ namespace XP.DB.LocalRedis
 {
     public class LocalRedisEngine : DB.CommRedis.TEntityEngineBase<LocalRedisEngine>
     {
+      
     }
 }

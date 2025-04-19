@@ -76,10 +76,6 @@
       <Project>{0429227A-A0ED-4DB2-86BF-4105BA1E33D4}</Project>
       <Name>XP.Comm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
-      <Project>{d3aabbec-b6ae-4a7c-9c24-83353507efc1}</Project>
-      <Name>XP.Util</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BaseForms\BaseTestForm.resx">
