@@ -46,6 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TagAttribute.cs" />
     <Compile Include="TagDefined.cs" />
+    <Compile Include="Utils\LoopTagUtil.cs" />
     <Compile Include="Utils\TagFinder.cs" />
     <Compile Include="TMTags\TMBase.cs" />
     <Compile Include="TMTags\TMLoop.cs" />
