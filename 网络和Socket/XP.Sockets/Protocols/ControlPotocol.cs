@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using XP.Common;
-using XP.Common.DosCmd;
+using XP.Comm.Dos;
+
+
 
 namespace XP.Sockets.Protocols
 {
@@ -43,7 +44,7 @@ namespace XP.Sockets.Protocols
                 bool WinCloseResult = NormalCmd.RebootWindow(30);
                 if (!WinCloseResult)
                 {
-                    XP.Common.API.CloseWin.DoExitWindows(Common.API.CloseWin.ExitWindows.Reboot);
+                    //XP.Common.API.CloseWin.DoExitWindows(Common.API.CloseWin.ExitWindows.Reboot);
                 }
             }
         }

@@ -51,9 +51,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XP.Common\XP.Common.csproj">
-      <Project>{91ece906-c0ca-4520-bba2-f6ad81f35090}</Project>
-      <Name>XP.Common</Name>
+    <ProjectReference Include="..\..\XP.Comm\XP.Comm.csproj">
+      <Project>{ff368e06-0aab-42b3-bd21-099b1defd4bf}</Project>
+      <Name>XP.Comm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
+      <Project>{69f27cb0-4665-4422-98fc-5fbd927cda0d}</Project>
+      <Name>XP.Util</Name>
     </ProjectReference>
     <ProjectReference Include="..\XP.Sockets\XP.Sockets.csproj">
       <Project>{d3525c8c-1bee-478d-8fbc-8a36900f88de}</Project>
