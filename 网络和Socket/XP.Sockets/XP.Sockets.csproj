@@ -54,6 +54,8 @@
     <Compile Include="Protocols\MsgProtocolHandle.cs" />
     <Compile Include="Protocols\SimplySecurityProvider.cs" />
     <Compile Include="Protocols\XORCheckoutProvider.cs" />
+    <Compile Include="ProtocolTcpClient.cs" />
+    <Compile Include="ProtocolTcpServer.cs" />
     <Compile Include="ProtocolUtil.cs" />
     <Compile Include="ServerTcp.cs" />
     <Compile Include="SimplyListener.cs" />
