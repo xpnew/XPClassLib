@@ -98,6 +98,100 @@ namespace XP.Util.Http
                 }
                 return false;
             }
+        }  
+        /// <summary>
+        /// POST方式的HTTP请求
+        /// </summary>
+        /// <param name="url">请求地址</param>
+        /// <param name="sendJson">数据</param>
+        /// <param name="responseData">输出数据</param>
+        /// <returns></returns>
+        public static bool PostJson(string url, string sendJson, ref string returnJson, Dictionary<string, string> headerDict = null)
+        {
+            HttpWebRequest request = null;
+            try
+            {
+                if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+                {
+                    ServicePointManager.ServerCertificateValidationCallback =
+                        new RemoteCertificateValidationCallback(checkValidationResult);
+                }
+                request = WebRequest.Create(url) as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json; charset=UTF-8";   //application/octet-stream
+                if (null != headerDict && 0 != headerDict.Count)
+                {
+                    if (headerDict.ContainsKey("host"))
+                    {
+                        request.Host = headerDict["host"];
+                    }
+                    if (headerDict.ContainsKey("content-type"))
+                    {
+                        request.ContentType = headerDict["content-type"];
+                    }
+                    foreach (string key in headerDict.Keys.Except(new List<string>() { "host", "content-type" }))
+                    {
+                        request.Headers.Set(key, headerDict[key]);
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(sendJson))
+                {
+                    using (Stream postStream = request.GetRequestStream())
+                    {
+                        byte[] byteArray = Encoding.GetEncoding("UTF-8").GetBytes(sendJson);
+                        postStream.Write(byteArray, 0, byteArray.Length);
+                    }
+                }
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        returnJson = reader.ReadToEnd();
+                        reader.Close();
+                        reader.Dispose();
+                    }
+                    response.Close();
+                    response.Dispose();
+                }
+                request.Abort();
+                return true;
+            }
+            catch (WebException ex)
+            {
+                if(ex.Status == WebExceptionStatus.ConnectFailure)
+                {
+                    x.Say("数据发送的时候出现了异常： 连接失败" );
+
+                    return false;
+                }
+
+                string ErrorPage;
+                //获取响应内容  
+                using (HttpWebResponse response = (HttpWebResponse)ex.Response)
+                {
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        ErrorPage = reader.ReadToEnd();
+                        reader.Close();
+                        reader.Dispose();
+                    }
+                    response.Close();
+                    response.Dispose();
+                }
+                x.Say("数据发送的时候出现了异常： " + ErrorPage);
+                XP.Loger.Error("数据发送的时候出现了异常： " + ErrorPage);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                XP.Loger.Error("网络请求失败，地址【" + url + "】，错误详细：" + ex);
+                if (request != null)
+                {
+                    request.Abort();
+                }
+                return false;
+            }
         }
 
         #endregion
