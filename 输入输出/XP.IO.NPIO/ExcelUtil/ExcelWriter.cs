@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NPOI.SS.Util;
+using NPOI.XSSF.UserModel;
 namespace XP.IO.ExcelUtil
 {
     /// <summary>
@@ -88,6 +89,7 @@ namespace XP.IO.ExcelUtil
             {
                 CaptionText = null;
                 EnableCaption = false;
+                _InitWorkbook();
                 return;
             }
             CaptionText = cap;
@@ -116,7 +118,7 @@ namespace XP.IO.ExcelUtil
             _InitWorkbook();
         }
 
-        public ExcelWriter(DataTable dt):this(null, dt)
+        public ExcelWriter(DataTable dt) : this(null, dt)
         {
         }
 
@@ -132,6 +134,11 @@ namespace XP.IO.ExcelUtil
 
         private void _InitWorkbook()
         {
+
+            //if (Path.Contains(".xlsx")) // 2007版本
+            //    Workbook = new XSSFWorkbook(fs);
+            //else if (Path.Contains(".xls")) // 2003版本
+            //    Workbook = new HSSFWorkbook(fs);
 
             Workbook = new HSSFWorkbook(); //新建一个xls文件
 
@@ -161,6 +168,54 @@ namespace XP.IO.ExcelUtil
 
         }
 
+        /// <summary>
+        /// 为某个工作表的某一列添加链接
+        /// </summary>
+        /// <param name="sheetIdx">表索引,从0计数</param>
+        /// <param name="colIdx"></param>
+        /// <param name="links"></param>
+        public void SetLink(int sheetIdx, int colIdx, List<string> links)
+        {
+            ISheet sheet = Workbook.GetSheetAt(sheetIdx);
+
+            int StartY = 1;
+            int MaxLine = this.InputData[sheetIdx].Rows.Count;
+
+
+            if (EnableCaption) StartY++;
+
+            ICellStyle style = sheet.Workbook.CreateCellStyle();
+            IFont font = sheet.Workbook.CreateFont();
+            
+            font.FontName = "宋体";
+            font.FontHeightInPoints = 11;
+            font.Color = IndexedColors.Blue.Index;
+
+            font.Underline = FontUnderlineType.Single;
+
+            // 将字体应用到样式上
+            style.SetFont(font);
+
+
+            for (int i = 0; i< MaxLine && i < links.Count;i++)
+            {
+                IRow row = sheet.GetRow(StartY +i);
+                ICell cell = row.GetCell(colIdx);
+
+                //XSSFHyperlink link = new XSSFHyperlink(HyperlinkType.Document); // 对于 .xlsx 文件
+                // 或者使用 HSSFHype
+                // rlink 和 HyperlinkType.Document 对于 .xls 文件
+
+                var link = new HSSFHyperlink(HyperlinkType.Document);
+                //link. = HyperlinkAddressMode.None; // 设置地址模式为 None 或 Sheet
+                link.Address = links[i] +  "!A1"; // 链接到的单元格地址，例如 "Sheet2!A1"
+
+                cell.Hyperlink = link;
+                cell.CellStyle = style;
+            }
+
+
+        }
 
 
 
@@ -298,15 +353,23 @@ namespace XP.IO.ExcelUtil
 
 
                             newCell.SetCellValue(DbCellValue);
-                            newCell.CellStyle.ShrinkToFit = true;
+                            //让文字适应列宽
+                            //newCell.CellStyle.ShrinkToFit = true;
 
                         }
+
                         CurrentRowIndex++;
                     }
 
                     // 格式化当前sheet，用于数据total计算
                     sheet.ForceFormulaRecalculation = true;
+
+                    AutoColumnWidth(sheet, ColumnsLength);
+
+
                 }
+
+
                 return hssfworkbook;
             }
             catch (Exception ex)
@@ -318,6 +381,7 @@ namespace XP.IO.ExcelUtil
             }
 
         }
+
 
         public static void AddSheet(IWorkbook workbook, List<string> columns, DataTable inputDataTable, string captionText, bool enableCaption)
         {
@@ -340,14 +404,14 @@ namespace XP.IO.ExcelUtil
             int DtRowsIndex = 0;
             string SheetName = "newsheet";
 
-            if (String.IsNullOrEmpty(inputDataTable.TableName))
+            if (!String.IsNullOrEmpty(inputDataTable.TableName))
             {
                 SheetName = inputDataTable.TableName;
             }
 
             if (0 == AllRowsCounter)
             {
-                return ;
+                return;
             }
 
             //整除的结果
@@ -362,7 +426,7 @@ namespace XP.IO.ExcelUtil
             List<ISheet> SheetList = new List<ISheet>();
             for (int i = 0; i < SheetCounter; i++)
             {
-                ISheet NewSheet = workbook.CreateSheet(SheetName + (i + 1));
+                ISheet NewSheet = workbook.CreateSheet(SheetName);
                 SheetList.Add(NewSheet);
             }
 
@@ -370,7 +434,13 @@ namespace XP.IO.ExcelUtil
             ICellStyle dateStyle = workbook.CreateCellStyle();
             IDataFormat format = workbook.CreateDataFormat();
             dateStyle.DataFormat = format.GetFormat("yyyy-mm-dd");
+            ICellStyle style = workbook.CreateCellStyle();
+            IFont font = workbook.CreateFont();
+            font.FontName = "宋体";
+            font.FontHeightInPoints = 11;
 
+            // 将字体应用到样式上
+            style.SetFont(font);
 
             try
             {
@@ -436,14 +506,16 @@ namespace XP.IO.ExcelUtil
                             {
                                 continue;
                             }
-                            if(CurrentRow.IsNull(j)){
+                            if (CurrentRow.IsNull(j))
+                            {
                                 continue;
                             }
                             string DbCellValue = CurrentRow[columns[j]].ToString();
 
 
                             newCell.SetCellValue(DbCellValue);
-                            newCell.CellStyle.ShrinkToFit = true;
+                            newCell.CellStyle = style;
+                            //newCell.CellStyle.ShrinkToFit = true;
 
                         }
                         CurrentRowIndex++;
@@ -451,8 +523,9 @@ namespace XP.IO.ExcelUtil
 
                     // 格式化当前sheet，用于数据total计算
                     sheet.ForceFormulaRecalculation = true;
+                    AutoColumnWidth(sheet, ColumnsLength);
                 }
-             
+
             }
             catch (Exception ex)
             {
@@ -508,6 +581,25 @@ namespace XP.IO.ExcelUtil
         }
 
 
+        public static void AutoColumnWidth(ISheet sheet, int cols)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                sheet.AutoSizeColumn(col);//自适应宽度，但是其实还是比实际文本要宽
+                //int columnWidth = sheet.GetColumnWidth(col) / 256;//获取当前列宽度
+                //for (int rowIndex = 1; rowIndex <= sheet.LastRowNum; rowIndex++)
+                //{
+                //    IRow row = sheet.GetRow(rowIndex);
+                //    ICell cell = row.GetCell(col);
+                //    int contextLength = Encoding.UTF8.GetBytes(cell.ToString()).Length;//获取当前单元格的内容宽度
+                //    columnWidth = columnWidth < contextLength ? contextLength : columnWidth;
+
+                //}
+                //sheet.SetColumnWidth(col, columnWidth * 200);//
+
+            }
+        }
+
 
         /// <summary>
         /// 创建标题（允许可选的跨行表头）
@@ -535,6 +627,21 @@ namespace XP.IO.ExcelUtil
                 sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, ColumnsLength - 1));
                 ColumnRowStartIndex++;
             }
+
+            // 创建单元格样式并设置背景色
+            ICellStyle style = sheet.Workbook.CreateCellStyle();
+            style.FillForegroundColor = IndexedColors.Yellow.Index; // 设置背景色为黄色
+            style.FillPattern = FillPattern.SolidForeground; // 设置填充模式为纯色
+
+            // 创建字体对象并设置加粗
+            IFont font = sheet.Workbook.CreateFont();
+            font.Boldweight = (short)FontBoldWeight.Bold; // 或者使用font.IsBold = true;
+            font.FontName = "宋体";
+            font.FontHeightInPoints = 11;
+
+            // 将字体应用到样式上
+            style.SetFont(font);
+
             //添加上列名
             //Excel当中起始行的索引是1，所以这里列标题行要加上1
             IRow TitelRow = sheet.CreateRow(ColumnRowStartIndex);
@@ -542,7 +649,8 @@ namespace XP.IO.ExcelUtil
             for (int j = 0; j < columns.Count; j++)
             {
                 ICell cell = TitelRow.CreateCell(j);
-                sheet.SetColumnWidth(j, columns[j].Length * 256);
+                //sheet.SetColumnWidth(j, columns[j].Length * 256);
+                cell.CellStyle = style;
                 cell.SetCellValue(columns[j]);
             }
 
@@ -556,7 +664,8 @@ namespace XP.IO.ExcelUtil
         /// </summary>
         /// <param name="dt"></param>
         /// <returns></returns>
-        public static List<string> FindTableColumnname(DataTable dt){
+        public static List<string> FindTableColumnname(DataTable dt)
+        {
             var Result = new List<string>();
 
             foreach (DataColumn col in dt.Columns)
