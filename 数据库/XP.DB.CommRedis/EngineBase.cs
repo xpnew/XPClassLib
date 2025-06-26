@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using StackExchange.Redis;
+using XP.Comm;
 using XP.Util.Configs;
+using XP.Util.Json;
 
 namespace XP.DB.CommRedis
 {
@@ -57,6 +59,14 @@ namespace XP.DB.CommRedis
         public EngineBase()
         {
             _Init();
+        }
+
+        public EngineBase(DbConnParams p)
+        {
+            _subScribeList = new Dictionary<string, Dictionary<string, SubScribeItem>>();
+            _EngineName = this.GetType().Name;
+            _InitParams(p);
+            StartEngine();
         }
 
         protected virtual void _Init()
@@ -116,7 +126,10 @@ namespace XP.DB.CommRedis
             _InitParams(p);
         }
 
-
+        public string SayParams()
+        {
+            return JsonHelper.ToJson(Params);
+        }
         public bool StartEngine(DbConnParams p)
         {
             _InitParams(p);
@@ -278,7 +291,7 @@ namespace XP.DB.CommRedis
             //}
             var lst = Helper.ListRange(key);
 
-            return lst.Select(o=> o.ToString()).ToList();
+            return lst.Select(o => o.ToString()).ToList();
         }
 
         public long InsertStringList(string key, string val)
@@ -288,8 +301,9 @@ namespace XP.DB.CommRedis
                 return -1;
             }
             return Helper.ListLastPush(key, (RedisValue)val);
-          
+
         }
+
 
 
         #region  常规增删改查
@@ -313,7 +327,7 @@ namespace XP.DB.CommRedis
         }
         public bool Expire(string fullkey, int seconds = 0, int minutes = 0, int hours = 0, int days = 0)
         {
-            return Helper.KeyExpire(fullkey, days: days);
+            return Helper.KeyExpire(fullkey, seconds: seconds, minutes: minutes, hours: hours, days: days);
         }
 
         /// <summary>
@@ -376,6 +390,11 @@ namespace XP.DB.CommRedis
 
         }
 
+
+        public bool Del(string fullkey, string subkey)
+        {
+            return Helper.HashDelete(fullkey, (RedisValue)subkey);
+        }
         public int FindInt(string fullkey, string k, int def = 0)
         {
 
@@ -423,12 +442,137 @@ namespace XP.DB.CommRedis
         }
 
 
+        public string FindFirstLine(string key)
+        {
+            //var o =  this.Helper.ListFirstPop(key); 
+            if (0 == Helper.ListLenght(key))
+            {
+                return null;
+            }
+            var o = this.Helper.ListIndex(key, 0);
+
+
+            if (o != RedisValue.Null)
+            {
+                return o.ToString();
+            }
+
+            return null;
+        }
+
+        public string FindLine(string key, int index)
+        {
+            //var o =  this.Helper.ListFirstPop(key); 
+            if (0 == Helper.ListLenght(key))
+            {
+                return null;
+            }
+            var o = this.Helper.ListIndex(key, index);
+
+
+            if (o != RedisValue.Null)
+            {
+                return o.ToString();
+            }
+
+            return null;
+        }
+
 
 
         #endregion
 
 
+
+
+
         #region 基本读写封装SUID(未完成)
+
+
+
+        public int GetKeyInt(string fullkey)
+        {
+            var val = Helper.StringGet(fullkey);
+
+            if (val.HasValue)
+            {
+                if (val.IsInteger)
+                {
+                    int v = (int)val;
+                    return v;
+                }
+                else
+                {
+                    //string strVal = val.ToString();
+                    return Constant.ErrorInt;
+
+                }
+
+            }
+            return Comm.Constant.NotExistInt;
+
+        }
+
+        public long GetKeyLong(string fullkey)
+        {
+            var val = Helper.StringGet(fullkey);
+
+            if (val.HasValue)
+            {
+                if (val.IsInteger)
+                {
+                    long v = (long)val;
+                    return v;
+                }
+                else
+                {
+                    string strVal = val.ToString();
+                    int tmp = 0;
+                    if (int.TryParse(strVal, out tmp))
+                    {
+                        return tmp;
+                    }
+                    return Constant.ErrorLong;
+
+                }
+
+            }
+            return Comm.Constant.NotExistLong;
+        }
+
+        public bool ExistKey(string fullkey)
+        {
+            return Helper.KeyExists(fullkey);
+        }
+        public string GetStringValue(string fullkey)
+        {
+            var v = Helper.StringGet(fullkey);
+            if (RedisValue.Null == v)
+            {
+                return null;
+            }
+            return v.ToString();
+        }
+
+
+        public bool SetInt(string key, int value, TimeSpan? tm = null)
+        {
+            return Helper.StringSet(key, value, tm);
+        }
+        public bool SetLong(string key, long value, TimeSpan? tm = null)
+        {
+            return Helper.StringSet(key, value, tm);
+        }
+        public bool SetStringValue(string key, string value, TimeSpan? tm = null)
+        {
+            return Helper.StringSet(key, value, tm);
+        }
+
+
+
+
+
+
 
 
         public string FindString(string rootkey, string k, string def = "")
@@ -452,7 +596,59 @@ namespace XP.DB.CommRedis
         //    return def;
         //}
 
+        #region  封装一部分list
 
+
+        public long ListLastPush(string key, string value)
+        {
+            try
+            {
+                return Helper.ListLastPush(key, (RedisValue)value);
+
+            }
+            catch (Exception error)
+            {
+                //LogOut.Instance.PrintLog("Redis::ListLastPush(1)   " + error.ToString());
+            }
+            return -1;
+        }
+
+
+        public List<string> GetListJson(string key)
+        {
+
+            var list = new List<string>();
+            var Exist = Helper.ListRange(key);
+            foreach (var item in Exist)
+            {
+                if (item.HasValue)
+                {
+                    list.Add(item.ToString());
+                }
+
+            }
+            return list;
+
+        }
+
+        public void ReplaceList(string key, List<string> list)
+        {
+            long max = Helper.ListLenght(key);
+
+
+            Helper.ListRemove(key, 0, max);
+
+            var PushList = list.Select(o => (RedisValue)o).ToArray();
+
+            Helper.ListLastPush(key, PushList);
+
+
+
+
+        }
+
+
+        #endregion
         #endregion
 
 
