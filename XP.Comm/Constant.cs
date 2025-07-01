@@ -17,7 +17,10 @@ namespace XP.Comm
         /// </summary>
         public const int NullInt = -2147483647;
 
-
+        /// <summary>
+        /// 当Max没有被设置时的默认值 2147483646 int.MaxValue -1
+        /// </summary>
+        public const int NotSetMaxInt = 2147483646;
 
 
         /// <summary>
