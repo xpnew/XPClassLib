@@ -40,7 +40,7 @@
       <HintPath>..\..\社会队盲盒\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -88,6 +88,10 @@
     <Compile Include="WebUtils\UtilBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
+      <Project>{69f27cb0-4665-4422-98fc-5fbd927cda0d}</Project>
+      <Name>XP.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XP.Comm.Web\XP.Comm.Web.csproj">
       <Project>{deb0ef71-5473-4a09-b36a-6fa356ab6006}</Project>
       <Name>XP.Comm.Web</Name>
