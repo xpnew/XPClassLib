@@ -49,7 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XP.Util.Web\XP.Util.Web.csproj">
+    <ProjectReference Include="..\..\Web\XP.Util.Web\XP.Util.Web.csproj">
       <Project>{a82e5f89-c314-4f08-b36c-a9ce7e3f1951}</Project>
       <Name>XP.Util.Web</Name>
     </ProjectReference>

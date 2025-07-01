@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -61,6 +62,11 @@ namespace XP.Comm.Finders
 
         public List<TextFileFoundResult> FileResult { get; set; }
 
+
+        private int _NotSetMax = -1;
+        public int Max { get; set; } = Constant.NotSetMaxInt;
+     
+
         public TextFileFinder()
         {
             _Init();
@@ -94,9 +100,14 @@ namespace XP.Comm.Finders
 
         protected virtual void FindFiles()
         {
+            int Index = 0;
 
             foreach (var f in Files)
             {
+                if (Index >=  Max)
+                {
+                    return;                    
+                }
                 if (HasCannel)
                 {
                     return ;
@@ -104,6 +115,8 @@ namespace XP.Comm.Finders
 
                 _FindLineByIndex(f);
                 _FindByRegex(f);
+
+                Index++;
             }
 
 
