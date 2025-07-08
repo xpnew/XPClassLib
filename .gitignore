@@ -193,4 +193,5 @@ ModelManifest.xml
 /.vs/XP公共类库/v17/DocumentLayout.json
 .vs
 .vs
-/XP.Util.Web/.vs
+/网络和Socket/XP.TCP.Server/.vs
+/网络和Socket/XP.Sockets/.vs
