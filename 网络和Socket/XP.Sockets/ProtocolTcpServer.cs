@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using XP.Common;
 using XP.Sockets.Protocols;
 
 namespace XP.Sockets

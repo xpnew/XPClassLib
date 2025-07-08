@@ -35,13 +35,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>D:\客户项目\11厂wms\代码\11厂wms监控程序（平板Server）\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>..\Dlls\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,13 +51,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XP.Comm\XP.Comm.csproj">
-      <Project>{ff368e06-0aab-42b3-bd21-099b1defd4bf}</Project>
-      <Name>XP.Comm</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
-      <Project>{69f27cb0-4665-4422-98fc-5fbd927cda0d}</Project>
-      <Name>XP.Util</Name>
+    <ProjectReference Include="..\XP.Common\XP.Common.csproj">
+      <Project>{91ece906-c0ca-4520-bba2-f6ad81f35090}</Project>
+      <Name>XP.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\XP.Sockets\XP.Sockets.csproj">
       <Project>{d3525c8c-1bee-478d-8fbc-8a36900f88de}</Project>
@@ -69,7 +63,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="log4net.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

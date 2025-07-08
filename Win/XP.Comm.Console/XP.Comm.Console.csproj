@@ -52,6 +52,10 @@
       <Project>{0429227A-A0ED-4DB2-86BF-4105BA1E33D4}</Project>
       <Name>XP.Comm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
+      <Project>{69f27cb0-4665-4422-98fc-5fbd927cda0d}</Project>
+      <Name>XP.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

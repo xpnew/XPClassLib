@@ -121,8 +121,6 @@
     <Compile Include="Linq\IEnumerableExtensions.cs" />
     <Compile Include="Loger\Loger.cs" />
     <Compile Include="Loger\LogHelper.cs" />
-    <Compile Include="Net\HostNetInfo.cs" />
-    <Compile Include="Net\IPInfo.cs" />
     <Compile Include="Net\IPvsNameTools.cs" />
     <Compile Include="Path\PathTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

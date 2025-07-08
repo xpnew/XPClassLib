@@ -50,6 +50,8 @@ namespace XP.Comm.Console.Menus
 
         public string MenuName { get; set; }
 
+        public int Dept { get; set; } = 0;
+
         /// <summary>
         /// 连续输入错误的次数
         /// </summary>
@@ -72,21 +74,63 @@ namespace XP.Comm.Console.Menus
             Items.Add(item);
         }
 
+        /// <summary>
+        /// 尽量不要使用这个方法，因为它将会反复使用一个固定 的对象，出现难以预料 的问题
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="submenu"></param>
+        public void AddMenu(string text, BaseMenu submenu)
+        {
+            submenu.Dept = this.Dept + 2;
+           // submenu.MenuName = menuShow;
+            this.AddFunction(text, () => {
+                submenu.Show();
+                return submenu.Msg;
+            });
+        }
+
         protected void ShowMenu()
         {
             if (!String.IsNullOrEmpty(MenuName))
             {
-                c.Write("【" + MenuName + "】");
+                c.Write(PrexSpace+"【" + MenuName + "】");
             }
-            c.Say("请选择一个菜单（q退出）：");
+            c.Say($"{PrexSpace}请选择一个菜单（q退出）：");
             for (int i = 0; i < Items.Count; i++)
             {
-                c.Say((i + 1) + "、" + Items[i].MenuText);
+                c.Say(PrexSpace + (i + 1) + "、" + Items[i].MenuText);
             }
 
 
         }
 
+        private string _PrexSpace;
+
+        public string PrexSpace
+        {
+            get
+            {
+                if(null == _PrexSpace)
+                    BuildPrexSpace();
+
+                return _PrexSpace;
+            }
+        }
+        private void BuildPrexSpace()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < Dept; i++)
+            {
+                sb.Append(" ");
+            }
+
+            _PrexSpace = sb.ToString();
+
+        }
+        protected virtual void DoExist()
+        {
+
+        }
 
 
         protected void WaitInput()
@@ -95,6 +139,7 @@ namespace XP.Comm.Console.Menus
             if ("q" == input.ToLower())
             {
                 InputResult = input;
+                DoExist();
                 return;
             }
             if (2 < ErrorInputCount)
@@ -110,7 +155,7 @@ namespace XP.Comm.Console.Menus
             if (!vbs.IsInt(input))
             {
                 ErrorInputCount++;
-                string NoticeText = "输入有误重新输入";
+                string NoticeText = PrexSpace+"输入有误重新输入";
 
                 if (2 < ErrorInputCount)
                 {
@@ -127,7 +172,7 @@ namespace XP.Comm.Console.Menus
             if (ChoosNum < 1 || ChoosNum > Items.Count)
             {
                 ErrorInputCount++;
-                string NoticeText = "输入有误重新输入";
+                string NoticeText = PrexSpace+ "输入有误重新输入";
 
                 if (2 < ErrorInputCount)
                 {

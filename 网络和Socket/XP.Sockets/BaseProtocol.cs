@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using XP.Util.Text;
-
+using XP.Common.Text;
 
 namespace XP.Sockets
 {

@@ -77,7 +77,7 @@
       <Name>XP.Comm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
-      <Project>{69f27cb0-4665-4422-98fc-5fbd927cda0d}</Project>
+      <Project>{d3aabbec-b6ae-4a7c-9c24-83353507efc1}</Project>
       <Name>XP.Util</Name>
     </ProjectReference>
   </ItemGroup>
