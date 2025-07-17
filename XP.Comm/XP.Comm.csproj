@@ -107,6 +107,11 @@
     <Compile Include="QCondition\BaseQCondition.cs" />
     <Compile Include="QCondition\BassEntityCondition.cs" />
     <Compile Include="QCondition\OrderTypeDef.cs" />
+    <Compile Include="ReturnEntities\BaseReturn.cs" />
+    <Compile Include="ReturnEntities\GenericModelReturn.cs" />
+    <Compile Include="ReturnEntities\HttpReturn.cs" />
+    <Compile Include="ReturnEntities\IReturn.cs" />
+    <Compile Include="ReturnEntities\SimplyReturn.cs" />
     <Compile Include="Structs\Point.cs" />
     <Compile Include="Tokens\TokenBase.cs" />
     <Compile Include="Types\ResultTypeDefined.cs" />

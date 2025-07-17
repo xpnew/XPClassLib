@@ -23,7 +23,7 @@ namespace XP.Util.Win
             //_Init();
         }
 
-        protected virtual void _Init()
+        protected virtual void _InitReg()
         {
             //_InitBaseTestForm();
             //_tm.Elapsed += _tm_Elapsed;
