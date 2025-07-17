@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ljy.Comm.ReturnEntities
+namespace XP.Comm.ReturnEntities
 {
     /// <summary>
     /// 简单的消息返回（实际上就是BaseReturn） 

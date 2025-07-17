@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ljy.Comm.ReturnEntities
+namespace XP.Comm.ReturnEntities
 {
 
     /// <summary>
