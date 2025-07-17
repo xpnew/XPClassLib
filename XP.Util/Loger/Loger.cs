@@ -168,6 +168,27 @@ namespace XP
             log2.Error(FullString);
             //log2.Error("程序出现异常，使用Error(log,Exception)方式记录！！！", ex);
         }
+
+        public static string BuildExceptionMsg(Exception ex, int statckPlies = 5)
+        {
+            string FullString = null;
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("程序出现异常，使用Error(log,Exception)方式记录！！！\n");
+            sb.Append(Exception2String(ex));
+            sb.Append(Util.Debug.StackTraceUtil.BuildStackStr(new StackTrace(ex), statckPlies));
+            sb.Append(Util.Debug.StackTraceUtil.BuildStackStr(new StackTrace(true), statckPlies));
+            if (null != ex.InnerException)
+            {
+                sb.Append("\t输出内部异常--------------");
+                sb.Append("\n");
+                sb.Append(Exception2String(ex.InnerException));
+            }
+
+            FullString = sb.ToString();
+
+            return FullString;
+        }
         public static string Exception2String(Exception ex)
         {
             string Tm = "【异常类型】：{0} \n【异常信息】：{1} \n【堆栈调用】：{2}";

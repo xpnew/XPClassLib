@@ -145,12 +145,6 @@
     <Compile Include="VisualBasic\vbs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XP.Comm\XP.Comm.csproj">
-      <Project>{0429227a-a0ed-4db2-86bf-4105ba1e33d4}</Project>
-      <Name>XP.Comm</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
