@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using XP.Comm.Enums;
+using XP.Comm.Msgs;
 
 namespace XP.Win.Components.Monitors
 {
@@ -53,7 +55,7 @@ namespace XP.Win.Components.Monitors
         {
             LevelLogMsg levelLogMsg = new LevelLogMsg() { 
                 Title = msg,
-                Level=  Util.DebugLevel.Info,
+                Level= MsgLevel.Info,
             
             };
             Add(levelLogMsg);

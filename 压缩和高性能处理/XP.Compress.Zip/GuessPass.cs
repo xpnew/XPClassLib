@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XP.Util.Text;
 
 namespace XP.Compress.Zip
 {
@@ -17,9 +18,26 @@ namespace XP.Compress.Zip
     public class GuessPass :UnZip
     {
         #region <属性>
+
+        /// <summary>
+        /// 随机字符串生成器
+        /// </summary>
+        public RandomStringByRangBase StringRandom { get; set; }
+
+        public ZipOption Option { get; set; }
+
+
         #endregion <属性>
 
         #region <构造方法>
+
+
+        public GuessPass(ZipOption option)
+        {
+
+            Option = option;
+        }
+
         #endregion <构造方法>
 
         #region <内部方法>
@@ -35,6 +53,11 @@ namespace XP.Compress.Zip
         #endregion <外部方法 end>
 
         #region <事件>
+
+
+
+        public Action<LevelLogMsg> LogMsgEvent { get; set; }
+
         #endregion <事件>    
     }
 }
