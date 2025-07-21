@@ -56,7 +56,6 @@
       <DependentUpon>BasicMonitorWin.cs</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
-    <Compile Include="LevelLogMsg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RichTextBoxColorExtensions.cs" />
   </ItemGroup>

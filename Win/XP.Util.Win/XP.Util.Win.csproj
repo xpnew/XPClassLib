@@ -66,6 +66,7 @@
     <Compile Include="Caching\WinCache.cs" />
     <Compile Include="Caching\WinCacheItem.cs" />
     <Compile Include="Caching\WinFileCacheProvider.cs" />
+    <Compile Include="ControlUtil.cs" />
     <Compile Include="HttpUtility.cs" />
     <Compile Include="NoFouce.cs" />
     <Compile Include="PathUtil.cs" />

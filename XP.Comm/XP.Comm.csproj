@@ -85,6 +85,7 @@
     <Compile Include="Entity\IntIdStoreEntityBase.cs" />
     <Compile Include="Entity\IStoreEntity.cs" />
     <Compile Include="Entity\StoreEntityBase.cs" />
+    <Compile Include="Enums\MsgLevel.cs" />
     <Compile Include="Enums\TaskStatusDef.cs" />
     <Compile Include="Enums\WebSystem\WebSystemEnums.cs" />
     <Compile Include="Event\LogEventArgs.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Msgs\CommMsg.cs" />
     <Compile Include="Msgs\DataMsg.cs" />
     <Compile Include="Msgs\IMsg.cs" />
+    <Compile Include="Msgs\LevelLogMsg.cs" />
     <Compile Include="Msgs\MsgBase.cs" />
     <Compile Include="Msgs\MsgResult.cs" />
     <Compile Include="Msgs\TruantDataMsg.cs" />

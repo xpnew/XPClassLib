@@ -47,6 +47,13 @@
     <Compile Include="GuessPass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnZip.cs" />
+    <Compile Include="ZipOption.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
+      <Project>{69F27CB0-4665-4422-98FC-5FBD927CDA0D}</Project>
+      <Name>XP.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
