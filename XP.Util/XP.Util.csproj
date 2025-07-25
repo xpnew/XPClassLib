@@ -95,7 +95,6 @@
     <Compile Include="Debug\DebugMsgEventArgs.cs" />
     <Compile Include="Debug\DefaultProvider.cs" />
     <Compile Include="Debug\IDebugProvicer.cs" />
-    <Compile Include="Debug\LevelLogMsg.cs" />
     <Compile Include="Debug\StackTraceUtil.cs" />
     <Compile Include="Debug\x.cs" />
     <Compile Include="DynamicMethod.cs" />
