@@ -97,23 +97,23 @@ namespace XP.Win.Components.Monitors
             switch (msg.Level)
             {
 
-                case Util.DebugLevel.Debug:
+                case MsgLevel.Debug:
                     CapText = "调试";
                     _CapColor = Color.Green;
                     break;
-                case Util.DebugLevel.Info:
+                case MsgLevel.Info:
                     CapText = "信息";
                     _CapColor = Color.Blue;
                     break;
-                case Util.DebugLevel.Warn:
+                case MsgLevel.Warn:
                     CapText = "警告";
                     _CapColor = Color.Yellow;
                     break;
-                case Util.DebugLevel.Error:
+                case MsgLevel.Error:
                     CapText = "错误";
                     _CapColor = Color.Red;
                     break;
-                case Util.DebugLevel.Execption:
+                case MsgLevel.Execption:
                     CapText = "异常";
                     _CapColor = Color.Red;
                     break;
