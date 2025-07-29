@@ -42,6 +42,8 @@ namespace XP.DB.Future.SqlDb
         }
 
 
+
+
         public List<ColumnDtoItem> GetColumn(string tablename)
         {
             List<ColumnDtoItem> Result = new List<ColumnDtoItem>();
@@ -172,6 +174,61 @@ WHERE TABLE_NAME='{TM:TableName}'";
             }
             return PkColumnList;
         }
+
+
+        public bool WriteDesciption(string tableName, string val, string columnName = null)
+        {
+            bool IsColumn = false;
+            string sql_check_tb = $"SELECT COUNT(0) FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'table', '{tableName}',null,null);";
+            string sql_check_cl = $"SELECT COUNT(0) FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'table', '{tableName}', 'column', '{columnName}');";
+
+            string sql_check = sql_check_tb;
+            string op_type = "sp_addextendedproperty";
+
+            string op_type_update = "sp_updateextendedproperty";
+
+            if(String.IsNullOrEmpty(columnName))
+            {
+                IsColumn = false;
+            }
+            else
+            {
+                IsColumn = true;               
+            }
+            if (IsColumn)
+            {
+                sql_check = sql_check_cl;
+            }
+
+            var Return = _Provider.ExecuteSql2One(sql_check);
+            if(null == Return || DBNull.Value == Return)
+            {
+                return false;
+            }
+            int Count =  (int)Return;
+            if(0< Count)
+            {
+                op_type = op_type_update;
+            }
+
+            string sql_set_tb = $"EXEC sys.{op_type} @name=N'MS_Description', @value=N'{val}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{tableName}'";
+            string sql_set_cl = $"EXEC sys.{op_type} @name=N'MS_Description', @value=N'{val}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{tableName}', @level2type=N'COLUMN',@level2name=N'{columnName}'";
+            string sql_set = sql_set_tb;
+            if (IsColumn)
+            {
+                sql_set = sql_set_cl;
+            }
+
+
+            var SetReturn = _Provider.ExecuteSql(sql_set);
+            if(XP.Comm.Constant.CheckReadyInt(SetReturn))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
 
 
         public void MkType(ColumnDtoItem item)

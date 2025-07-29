@@ -104,23 +104,49 @@ namespace XP.DB.Future
         }
         public int ExecuteSql(string sql)
         {
-            var cmd = CreateCommand(sql);      
+            var cmd = CreateCommand(sql);
 
             try
             {
                 Conn.Open();
-                int Result = cmd.ExecuteNonQuery();             
+                int Result = cmd.ExecuteNonQuery();
                 return Result;
             }
             catch (Exception ex)
             {
-                return -1;
+                return XP.Comm.Constant.ErrorInt;
             }
             finally
             {
-                if (Conn.State == ConnectionState.Open ||Conn.State == ConnectionState.Executing )
+                if (Conn.State == ConnectionState.Open || Conn.State == ConnectionState.Executing)
                     Conn.Close();
             }
+        }
+        /// <summary>
+        /// 返回结果当中的第一个值
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public object ExecuteSql2One(string sql)
+        {
+            var cmd = CreateCommand(sql);
+
+            try
+            {
+                Conn.Open();
+                object Result = cmd.ExecuteScalar();
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open || Conn.State == ConnectionState.Executing)
+                    Conn.Close();
+            }
+
         }
 
         public virtual int InsertAndId(string sql)
