@@ -98,6 +98,8 @@ WHERE TABLE_NAME='{TM:TableName}'";
                 NewItem.ColumnName = Name;
                 NewItem.ColumnTypeName = row["DATA_TYPE"].ToString();
 
+                //x.Say($"ColumnName : {NewItem.ColumnName},  ColumnTypeName :{NewItem.ColumnTypeName}");
+
                 NewItem.GlobalName = Name;
                 if (0 != PkColumnList.Count && PkColumnList.Contains(Name))
                 {
@@ -187,13 +189,13 @@ WHERE TABLE_NAME='{TM:TableName}'";
 
             string op_type_update = "sp_updateextendedproperty";
 
-            if(String.IsNullOrEmpty(columnName))
+            if (String.IsNullOrEmpty(columnName))
             {
                 IsColumn = false;
             }
             else
             {
-                IsColumn = true;               
+                IsColumn = true;
             }
             if (IsColumn)
             {
@@ -201,12 +203,12 @@ WHERE TABLE_NAME='{TM:TableName}'";
             }
 
             var Return = _Provider.ExecuteSql2One(sql_check);
-            if(null == Return || DBNull.Value == Return)
+            if (null == Return || DBNull.Value == Return)
             {
                 return false;
             }
-            int Count =  (int)Return;
-            if(0< Count)
+            int Count = (int)Return;
+            if (0 < Count)
             {
                 op_type = op_type_update;
             }
@@ -221,7 +223,7 @@ WHERE TABLE_NAME='{TM:TableName}'";
 
 
             var SetReturn = _Provider.ExecuteSql(sql_set);
-            if(XP.Comm.Constant.CheckReadyInt(SetReturn))
+            if (XP.Comm.Constant.CheckReadyInt(SetReturn))
             {
                 return true;
             }
@@ -235,7 +237,10 @@ WHERE TABLE_NAME='{TM:TableName}'";
         {
             Type t;
             string typename = item.ColumnTypeName;
-            item.SqlType = (SqlDbType)Enum.Parse(typeof(SqlDbType), typename, true);
+            if ("numeric" == typename)
+                item.SqlType = (SqlDbType)Enum.Parse(typeof(SqlDbType), "decimal", true);
+            else
+                item.SqlType = (SqlDbType)Enum.Parse(typeof(SqlDbType), typename, true);
 
             typename = typename.ToLower();
 
@@ -270,6 +275,10 @@ WHERE TABLE_NAME='{TM:TableName}'";
                     t = typeof(bool);
                     break;
                 case "decimal":
+                    PropertyTypeName = "decimal";
+                    t = typeof(decimal);
+                    break;
+                case "numeric":
                     PropertyTypeName = "decimal";
                     t = typeof(decimal);
                     break;
