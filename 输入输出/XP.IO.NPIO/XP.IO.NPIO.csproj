@@ -87,6 +87,7 @@
     <Compile Include="ExcelUtil\ExcelResultInfo.cs" />
     <Compile Include="ExcelUtil\ExcelTemplaterReader.cs" />
     <Compile Include="ExcelUtil\ExcelWriter.cs" />
+    <Compile Include="ExcelUtil\MultiTableReader.cs" />
     <Compile Include="ExcelUtil\OriginCell.cs" />
     <Compile Include="ExcelUtil\TemplateClone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

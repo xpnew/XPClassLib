@@ -134,6 +134,7 @@
     <Compile Include="Text\StringExtensions.cs" />
     <Compile Include="Text\TextUtil.cs" />
     <Compile Include="Text\TMUtil.cs" />
+    <Compile Include="Threadings\AsyncTask.cs" />
     <Compile Include="TypeCache\DynamicTypeMethod.cs" />
     <Compile Include="TypeCache\EntityCacheItem4JsonDict.cs" />
     <Compile Include="TypeCache\EntityCloneUtil.cs" />
