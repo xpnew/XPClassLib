@@ -58,7 +58,7 @@ namespace XP.IO.ExcelUtil
         /// <summary>
         /// 内部使用的工作薄（excel）
         /// </summary>
-        private IWorkbook _WorkBook;
+        protected IWorkbook _WorkBook;
 
         public List<DataTable> ResultTables { get; set; }
 
@@ -97,6 +97,7 @@ namespace XP.IO.ExcelUtil
             if (ep.ResultInfo.Success)
             {
                 this._WorkBook = ep.Workbook;
+                this.ResultInfo.Success = true;
             }
             else
             {
@@ -677,5 +678,14 @@ namespace XP.IO.ExcelUtil
             ResultInfo.ErrorList.Add(ErrorInfo);
         }
 
+
+        protected bool CheckNullCell(ICell cell)
+        {
+            if (null == cell || cell.CellType == CellType.Blank || (cell.CellType == CellType.String && String.IsNullOrEmpty(cell.StringCellValue)) || (cell.CellType == CellType.String && String.IsNullOrEmpty(cell.StringCellValue.Trim())) || (cell.CellType == CellType.String && "　" == cell.StringCellValue.ToLower())   )
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
