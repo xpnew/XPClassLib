@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XP.Comm.Msgs;
+using XP.Util;
 using XP.Util.Text;
 
 namespace XP.Compress.Zip
@@ -27,6 +29,18 @@ namespace XP.Compress.Zip
         public ZipOption Option { get; set; }
 
 
+        public bool HasError { get; set; }
+
+        public bool HasFind { get; set; }
+
+        public string ResultPwd { get; set; }
+
+
+
+        public string PhyRoot { get; set; }
+
+        public string RealDir { get; set; }
+
         #endregion <属性>
 
         #region <构造方法>
@@ -36,11 +50,32 @@ namespace XP.Compress.Zip
         {
 
             Option = option;
+
+            PhyRoot = option.TempRoot;
+
+            RealDir = PhyRoot;
+
+            if (!RealDir.EndsWith("\\"))
+            {
+                RealDir += "\\";
+            }
+            RealDir += GeneralTool.GetRndChars(16);
+
+            StringRandom = new EnglishRandomString(Option.EnalbleNumber, option.EnableSmall,Option.EnableLarge,Option.Punctuation);
         }
 
         #endregion <构造方法>
 
         #region <内部方法>
+
+
+        protected string NextPass()
+        {
+            int Len = GeneralTool.Random(Option.RangMin, Option.RangMax + 1);
+            return StringRandom.Start(Len);
+
+        }
+
         #endregion <内部方法 end>
         #region <外部方法>
 
@@ -49,6 +84,16 @@ namespace XP.Compress.Zip
 
 
             return false;
+        }
+
+        public void StartGuess()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StopGuess()
+        {
+            throw new NotImplementedException();
         }
         #endregion <外部方法 end>
 

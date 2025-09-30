@@ -50,6 +50,10 @@
     <Compile Include="ZipOption.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\XP.Comm\XP.Comm.csproj">
+      <Project>{0429227A-A0ED-4DB2-86BF-4105BA1E33D4}</Project>
+      <Name>XP.Comm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
       <Project>{69F27CB0-4665-4422-98FC-5FBD927CDA0D}</Project>
       <Name>XP.Util</Name>
