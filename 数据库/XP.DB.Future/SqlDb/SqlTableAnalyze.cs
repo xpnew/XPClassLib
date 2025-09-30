@@ -178,16 +178,24 @@ WHERE TABLE_NAME='{TM:TableName}'";
         }
 
 
-        public bool WriteDesciption(string tableName, string val, string columnName = null)
+        public bool WriteDesciption(string tableName, string val, string columnName = null, int type =1)
         {
+            string Level2Name = "TABLE";
+            if(2 == type)
+            {
+                Level2Name = "VIEW";
+            }
+
             bool IsColumn = false;
-            string sql_check_tb = $"SELECT COUNT(0) FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'table', '{tableName}',null,null);";
-            string sql_check_cl = $"SELECT COUNT(0) FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'table', '{tableName}', 'column', '{columnName}');";
+            string sql_check_tb = $"SELECT COUNT(0) FROM fn_listextendedproperty (NULL, 'schema', 'dbo', '{Level2Name}', '{tableName}',null,null);";
+            string sql_check_cl = $"SELECT COUNT(0) FROM fn_listextendedproperty (NULL, 'schema', 'dbo', '{Level2Name}', '{tableName}', 'column', '{columnName}');";
 
             string sql_check = sql_check_tb;
             string op_type = "sp_addextendedproperty";
 
             string op_type_update = "sp_updateextendedproperty";
+
+
 
             if (String.IsNullOrEmpty(columnName))
             {
@@ -213,8 +221,8 @@ WHERE TABLE_NAME='{TM:TableName}'";
                 op_type = op_type_update;
             }
 
-            string sql_set_tb = $"EXEC sys.{op_type} @name=N'MS_Description', @value=N'{val}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{tableName}'";
-            string sql_set_cl = $"EXEC sys.{op_type} @name=N'MS_Description', @value=N'{val}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{tableName}', @level2type=N'COLUMN',@level2name=N'{columnName}'";
+            string sql_set_tb = $"EXEC sys.{op_type} @name=N'MS_Description', @value=N'{val}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'{Level2Name}',@level1name=N'{tableName}'";
+            string sql_set_cl = $"EXEC sys.{op_type} @name=N'MS_Description', @value=N'{val}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'{Level2Name}',@level1name=N'{tableName}', @level2type=N'COLUMN',@level2name=N'{columnName}'";
             string sql_set = sql_set_tb;
             if (IsColumn)
             {
