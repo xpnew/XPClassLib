@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XP.Util.Http.Down;
-using XP.Util.Win;
+using XP.Util.Http;
 
 namespace XP.Web.JumonySDK.PicDown
 {

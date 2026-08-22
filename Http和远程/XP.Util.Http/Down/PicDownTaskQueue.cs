@@ -49,22 +49,38 @@ namespace XP.Util.Http.Down
 
 
 
+        //public void ParalleRun()
+        //{
+        //    ParallelOptions options = new ParallelOptions();
+        //    //指定使用的硬件线程数为10
+        //    options.MaxDegreeOfParallelism = 20;
+        //    ParallelLoopResult result = Parallel.ForEach<ITaskItem>(TaskList, options, (task, state, i) =>
+        //    {
+        //        PicDownTaskItem down = task as PicDownTaskItem;
+        //        Console.WriteLine("迭代次数：{0},{1}", i, down.PhyFile);
+        //        task.Start();
+        //        //if (i > 35)
+        //        //    state.Break();
+        //    });
+
+        //}
+
+
         public void ParalleRun()
         {
-            ParallelOptions options = new ParallelOptions();
-            //指定使用的硬件线程数为10
-            options.MaxDegreeOfParallelism = 20;
-            ParallelLoopResult result = Parallel.ForEach<ITaskItem>(TaskList, options, (task, state, i) =>
+
+            var pq = PiceDownTaskParallelQueue.Self;
+
+          
+            var t1 = XP.Util.Threadings.AsyncTask.BuildBGAsync(async () =>
             {
-                PicDownTaskItem down = task as PicDownTaskItem;
-                Console.WriteLine("迭代次数：{0},{1}", i, down.PhyFile);
-                task.Start();
-                //if (i > 35)
-                //    state.Break();
+                //await task.WorkAsync();
+                await pq.ParallelDown(TaskList);
             });
 
-        }
+            t1.Unwrap().GetAwaiter().GetResult();   // .GetResult();  
 
+        }
 
         /// <summary>
         /// 获取任务实际的目录名
@@ -157,6 +173,12 @@ namespace XP.Util.Http.Down
         {
             Uri uri = new Uri(url);
             string path = uri.LocalPath;
+            if("/l/" == path)
+            {
+                string RealFilename = url.Substring(url.LastIndexOf("/") + 1);
+                return RealFilename;
+
+            }
 
             if (String.IsNullOrEmpty(path))
             {

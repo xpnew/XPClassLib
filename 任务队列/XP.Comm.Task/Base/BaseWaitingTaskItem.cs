@@ -83,12 +83,13 @@ namespace XP.Comm.Task.Base
             }
 
             TaskReadyFlagSlim.Reset();
-            await _DoWorkAsync();
+     
             try
             {
                 //有一个延迟等待，防止没有获取到数字。
                 if (TaskReadyFlagSlim.Wait(WaitingTimeoutMillSecond, CancelToken))
                 {
+                    await _DoWorkAsync();
                     x.Say("挂起被激活。");
                     SetSuccess();
                 }

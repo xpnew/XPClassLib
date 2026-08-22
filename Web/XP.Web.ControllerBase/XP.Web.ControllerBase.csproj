@@ -95,7 +95,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XP.Comm.Web\XP.Comm.Web.csproj">
+    <ProjectReference Include="..\XP.Comm.Web\XP.Comm.Web.csproj">
       <Project>{deb0ef71-5473-4a09-b36a-6fa356ab6006}</Project>
       <Name>XP.Comm.Web</Name>
     </ProjectReference>
@@ -103,7 +103,7 @@
       <Project>{0429227a-a0ed-4db2-86bf-4105ba1e33d4}</Project>
       <Name>XP.Comm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\XP.Util.Web\XP.Util.Web.csproj">
+    <ProjectReference Include="..\XP.Util.Web\XP.Util.Web.csproj">
       <Project>{a82e5f89-c314-4f08-b36c-a9ce7e3f1951}</Project>
       <Name>XP.Util.Web</Name>
     </ProjectReference>

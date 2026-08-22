@@ -53,6 +53,35 @@ namespace XP.Util.Loger
                 }
             }
         }
+
+        private object _Locker4DayLog = new object();
+        /// <summary>
+        /// 按天保存的日志
+        /// </summary>
+        /// <param name="log"></param>
+        public void Daylog(string log, string logname = "_Daylog.txt")
+        {
+            lock (_Locker4DayLog) //防止并发异常
+            {
+                try
+                {
+                    string LogName = DateTime.Now.ToString("yyyyMMdd") + logname; //按天日志
+                    string Dir = XP.Util.Path.PathTools.GetRootPath() + "logs/";
+                    if (!System.IO.Directory.Exists(Dir))
+                    {
+                        System.IO.Directory.CreateDirectory(Dir);
+                    }
+                    string logfile = Dir + LogName;
+                    System.IO.StreamWriter sw = System.IO.File.AppendText(logfile);
+                    sw.WriteLine(log);
+                    sw.Close();
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
         /// <summary>
         /// 把日志注册到调试信息上
         /// </summary>

@@ -161,7 +161,7 @@ namespace XP.Comm.Task
 
                 if (EnableParallel)
                 {
-                    await ParalleRun();
+                    await ParalleRunAsync();
                 }
                 else
                 {
@@ -177,7 +177,10 @@ namespace XP.Comm.Task
         }
 
 
-        public async System.Threading.Tasks.Task ParalleRun()
+
+        /// 注意： 这个并行任务可能会有问题，请参考 PiceDownTaskParallelQueue
+
+        public async System.Threading.Tasks.Task ParalleRunAsync()
         {
             ParallelOptions options = new ParallelOptions();
             //指定使用的硬件线程数为10

@@ -66,5 +66,12 @@ namespace XP.Win.ProgressBars
             OnCannel?.Invoke(sender,e);
             this.Close();
         }
+
+
+        public string Info
+        {
+            get { return lab_Info.Text; }
+            set { lab_Info.Text = value; }
+        }
     }
 }

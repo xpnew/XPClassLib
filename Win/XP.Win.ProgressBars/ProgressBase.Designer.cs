@@ -34,13 +34,15 @@
             this.bt_Cannel = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.Pic_Loading02 = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lab_Info = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Pic_Loading02)).BeginInit();
             this.SuspendLayout();
             // 
             // Bar
             // 
-            this.Bar.Location = new System.Drawing.Point(108, 161);
+            this.Bar.Location = new System.Drawing.Point(108, 147);
             this.Bar.Name = "Bar";
             this.Bar.Size = new System.Drawing.Size(392, 23);
             this.Bar.TabIndex = 0;
@@ -59,8 +61,8 @@
             // bt_Cannel
             // 
             this.bt_Cannel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.bt_Cannel.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.bt_Cannel.Location = new System.Drawing.Point(242, 241);
+            this.bt_Cannel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.bt_Cannel.Location = new System.Drawing.Point(257, 241);
             this.bt_Cannel.Name = "bt_Cannel";
             this.bt_Cannel.Size = new System.Drawing.Size(75, 23);
             this.bt_Cannel.TabIndex = 2;
@@ -80,12 +82,31 @@
             // 
             this.Pic_Loading02.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.Pic_Loading02.Image = ((System.Drawing.Image)(resources.GetObject("Pic_Loading02.Image")));
-            this.Pic_Loading02.Location = new System.Drawing.Point(203, 73);
+            this.Pic_Loading02.Location = new System.Drawing.Point(212, 8);
             this.Pic_Loading02.Name = "Pic_Loading02";
             this.Pic_Loading02.Size = new System.Drawing.Size(162, 162);
             this.Pic_Loading02.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.Pic_Loading02.TabIndex = 4;
             this.Pic_Loading02.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(75, 220);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 12);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "label3";
+            // 
+            // lab_Info
+            // 
+            this.lab_Info.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.lab_Info.Location = new System.Drawing.Point(106, 185);
+            this.lab_Info.Name = "lab_Info";
+            this.lab_Info.Size = new System.Drawing.Size(394, 53);
+            this.lab_Info.TabIndex = 6;
+            this.lab_Info.Text = "...";
+            this.lab_Info.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // ProgressBase
             // 
@@ -93,6 +114,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InfoText;
             this.ClientSize = new System.Drawing.Size(636, 293);
+            this.Controls.Add(this.lab_Info);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.Pic_Loading02);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.bt_Cannel);
@@ -104,6 +127,7 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Pic_Loading02)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -114,6 +138,8 @@
         private System.Windows.Forms.Button bt_Cannel;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox Pic_Loading02;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lab_Info;
     }
 }
 

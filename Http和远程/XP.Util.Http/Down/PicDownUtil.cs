@@ -45,6 +45,7 @@ namespace XP.Util.Http.Down
         public static bool ParalleDownTask(string taskName, string root, List<string> urls)
         {
             PicDownTaskQueue _Queue = new PicDownTaskQueue(taskName, root, urls);
+
             _Queue.ParalleRun();
             return false;
 

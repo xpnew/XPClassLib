@@ -198,8 +198,10 @@ namespace XP.Comm.Task
 
         protected void _SayError(string str, Exception ex = null)
         {
+            NoticeStr += str + (ex == null ? "" : "，异常信息：" + ex.Message);
             if (null != ex)
             {
+                
                 Loger.Error(str, ex);
                 Msg.AddLog(str + ex.Message);
                 x.SayError(str + ex.Message);

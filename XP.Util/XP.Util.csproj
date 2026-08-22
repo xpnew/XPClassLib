@@ -105,6 +105,7 @@
     <Compile Include="GeneralTool.cs" />
     <Compile Include="Http\HttpAPI.cs" />
     <Compile Include="Http\HttpTool.cs" />
+    <Compile Include="Http\HttpUtility.cs" />
     <Compile Include="InstanceBuilder.cs" />
     <Compile Include="Json\DynamicTools.cs" />
     <Compile Include="Json\JComment\JCommentContractResolver.cs" />

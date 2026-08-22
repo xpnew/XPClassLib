@@ -35,14 +35,21 @@ namespace XP.Web.JumonySDK.LinkSearch
 
 
 
-        public List<LinkResultItem> Result { get; set; }
+        /// <summary>
+        /// 页面标题
+        /// </summary>
+        public string PageTitle { get; set; }
+
+
+        public List<LinkResultItem> Result { get; set; } = new List<LinkResultItem>();
 
 
         public override async Task WorkAsync()
         {
             await base.WorkAsync();
+            Queue = new LinkQueue();
             await LoadAndParse();
-            this.Queue = null;
+            //this.Queue = null;
         }
 
 
@@ -54,30 +61,47 @@ namespace XP.Web.JumonySDK.LinkSearch
                 var dom = new JumonyParser().LoadDocument(PageUrl);
                 XP.x.Say("页面地址：： " + PageUrl);
 
-                if (String.IsNullOrEmpty(dom.RawHtml))
+                if (!CheckHtmlReady(dom))
                 {
                     dom = Reload(PageUrl).Result;
                     if (null == dom)
                         return;
                 }
                 var HtmlTitle = dom.Find("head title").First().InnerText();
+                PageTitle = HtmlTitle;
                 XP.x.Say("页面标题： " + HtmlTitle);
                 var links = dom.Find(DomSelector).ToList();
                 foreach (var link in links)
                 {
-                    string Src = link.Attribute("href").AttributeValue;
+                    //string Src = link.Attribute("href").AttributeValue;
                     var attr = link.Attribute("src");
-                    string DomText = link.InnerText();
-                    if (!CheckKey(DomText)) continue;
+                    //string DomText = link.InnerText();
+                    //if (!CheckKey(DomText)) continue;
+                    dynamic img = link;
+                    string src = img.src;
+                    string SRC = img.SRC;
+                    if (null == attr)
+                    {
 
+
+                    }
+                    if(null ==  attr )
+                    {
+                        attr = link.Attribute("data-link");
+                    }
+                    if(null ==  attr )
+                    {
+                        attr = link.Attribute("ess-data");
+                    }
+                    if (null == attr) continue;
                     var NewItem = new LinkResultItem()
                     {
-                        LinkInnerText = DomText,
-                        LinkUrl = Src,
+                        LinkInnerText = link.ToString(),
+                        LinkUrl = attr?.AttributeValue,
                     };
 
                     Queue.AddReuslt(NewItem);
-                    //Result.Add(NewItem);
+                    Result.Add(NewItem);
 
                 }
             });
@@ -92,6 +116,80 @@ namespace XP.Web.JumonySDK.LinkSearch
                 return true;
             }
             return false;
+        }
+
+
+        /// <summary>
+        /// 不能通过RawHtml字段来判断，而是看解析的结果
+        /// </summary>
+        /// <param name="dom"></param>
+        /// <returns></returns>
+
+        public bool CheckHtmlReady(IHtmlDocument dom)
+        {
+            // 方法 A: 检查 Body 标签是否存在且有内容
+            var body = dom.Find("body").FirstOrDefault();
+            if (body != null && body.Nodes().Any())
+            {
+                Console.WriteLine("解析成功，Body 内有内容。");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("解析失败或页面 Body 为空。");
+            }
+            return false;
+
+        }
+
+
+        public async Task TestAsync()
+        {
+
+            var t = Task.Run(() =>
+            {
+
+                var dom = new JumonyParser().LoadDocument(PageUrl);
+                XP.x.Say("页面地址：： " + PageUrl);
+
+                if (!CheckHtmlReady(dom))
+                {
+                    dom = Reload(PageUrl).Result;
+                    if (null == dom)
+                        return;
+                }
+                var HtmlTitle = dom.Find("head title").First().InnerText();
+                PageTitle = HtmlTitle;
+                XP.x.Say("页面标题： " + HtmlTitle);
+                var links = dom.Find(DomSelector).ToList();
+
+
+                NoticeStr = $"一共获得图片数量 [ {links.Count}  ]";
+            });
+
+            await t;
+
+        }
+
+        public string TestSelector(string pattern)
+        {
+
+            var dom = new JumonyParser().LoadDocument(PageUrl);
+            XP.x.Say("页面地址：： " + PageUrl);
+
+            if (!CheckHtmlReady(dom))
+            {
+                dom = Reload(PageUrl).Result;
+                if (null == dom)
+                    return "";
+            }
+            var links = dom.Find(pattern).ToList();
+
+
+            return String.Join("", links);
+
+
+
         }
 
 
