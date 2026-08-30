@@ -61,12 +61,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="PicDown\PicDownTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="ReadMe.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\XP.Comm\XP.Comm.csproj">
+      <Project>{0429227a-a0ed-4db2-86bf-4105ba1e33d4}</Project>
+      <Name>XP.Comm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XP.Util\XP.Util.csproj">
+      <Project>{69f27cb0-4665-4422-98fc-5fbd927cda0d}</Project>
+      <Name>XP.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\任务队列\XP.Comm.Task\XP.Comm.Task.csproj">
+      <Project>{9a99c3c9-36d0-4fff-b76c-a6e0b6a45b28}</Project>
+      <Name>XP.Comm.Task</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XP.Comm.Http\XP.Comm.Http.csproj">
+      <Project>{bd289a4a-ade7-49ff-ab97-0540eba36c32}</Project>
+      <Name>XP.Comm.Http</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

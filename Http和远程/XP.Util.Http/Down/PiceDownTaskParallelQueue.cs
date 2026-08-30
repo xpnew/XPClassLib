@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using XP.Comm.Task;
 using XP.Util.ClassTemplate;
+using XP.Util.Configs;
 
 namespace XP.Util.Http.Down
 {
@@ -32,7 +33,7 @@ namespace XP.Util.Http.Down
         #region  基础参数和属性
         // 1. 定义信号量，最大并发数为 10 (根据你的需求调整这个数字)
         // 建议设为 static 或单例，确保在整个应用生命周期内共享同一个信号量
-        private SemaphoreSlim _semaphore = new SemaphoreSlim(10, 10);
+        private SemaphoreSlim _semaphore ;
 
         public long ItemIndex { get; set; } = 0;
 
@@ -56,6 +57,11 @@ namespace XP.Util.Http.Down
 
         protected void _Init()
         {
+
+            int ParallelMax = 5;
+
+            ParallelMax =  ConfigReader.Self.GetInt("PicDownParallelMax", ParallelMax);
+            _semaphore =  new SemaphoreSlim(ParallelMax, ParallelMax);
             //_InnerNextTimer.Start();
         }
 
@@ -96,7 +102,12 @@ namespace XP.Util.Http.Down
             foreach (var item in TaskList)
             {
                 // 将每个下载任务包装在一个异步方法中
-                tasks.Add(DownloadWithLimitAsync(item));
+                //tasks.Add(DownloadWithLimitAsync(item));
+
+                // 核心优化：使用Task.Run主动将任务调度到线程池执行，避免所有任务挤在初始线程中
+                // 新增局部变量拷贝，每个循环都会生成独立的 currentItem 副本
+                var currentItem = item;
+                tasks.Add(Task.Run(async () => await DownloadWithLimitAsync(currentItem)));
             }
 
             // 2. 等待所有任务完成

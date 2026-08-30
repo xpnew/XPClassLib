@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Down\DownTempNameBuilder.cs" />
     <Compile Include="Down\PicDownTaskItem.cs" />
     <Compile Include="Down\PicDownTaskQueue.cs" />
     <Compile Include="Down\PicDownUtil.cs" />

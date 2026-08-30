@@ -9,6 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace XP.Util.Http.Down
 {
@@ -76,7 +77,7 @@ namespace XP.Util.Http.Down
             step--;
 
 
-            string DownTempFileName = PhyDir + DateTime.Now.ToString("yyyyMMddHHmmssffff") + ".downtemp";
+            string DownTempFileName = GetRndTmpName(PhyDir);
 
             //获取远程文件的数据流
             int bufferSize = 2048;
@@ -117,6 +118,7 @@ namespace XP.Util.Http.Down
                  request.Proxy = WebRequest.DefaultWebProxy;
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 System.IO.Stream stream = response.GetResponseStream();
+                DownTempFileName =  DownTempNameBuilder.Self.GetName(PhyDir, "downtemp",1);
                 FileStream fs = new FileStream(DownTempFileName, FileMode.Create);
 
 
@@ -180,6 +182,25 @@ namespace XP.Util.Http.Down
             }
         }
 
+
+        protected string GetRndTmpName(string dir)
+        {
+            string rnd = DateTime.Now.ToString("yyyyMMddHHmmssffff");
+            string DownTempFileName = dir + rnd + ".downtemp";
+
+            //if (System.IO.File.Exists(DownTempFileName))
+            //{
+            //   int SleepRnd =   GeneralTool.Random(5, 120);
+
+
+            //    Thread.Sleep(SleepRnd);
+
+            //    return GetRndTmpName(dir);
+            //}
+
+            return DownTempFileName;
+
+        }
 
         public bool CheckPic(string phyFile)
         {

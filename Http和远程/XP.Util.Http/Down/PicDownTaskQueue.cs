@@ -28,7 +28,8 @@ namespace XP.Util.Http.Down
         public PicDownTaskQueue(string name, string root, List<string> urls)
             : this()
         {
-            Name = name;
+            Name = name.Trim();
+            //Name = name;
             PhyRoot = root;
             CheckRoot();
             RealDirName = GetTaskDownDir();
